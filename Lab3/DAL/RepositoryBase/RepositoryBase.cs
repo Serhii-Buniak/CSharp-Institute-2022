@@ -19,14 +19,14 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
         return AppDbContext.Set<T>().Where(expression).AsNoTracking();
     }
 
-    public void Create(T entity)
+    public T Create(T entity)
     {
-        AppDbContext.Set<T>().Add(entity);
+        return (AppDbContext.Set<T>().Add(entity)).Entity;
     }
 
-    public async Task CreateAsync(T entity)
+    public async Task<T> CreateAsync(T entity)
     {
-        await AppDbContext.Set<T>().AddAsync(entity);
+        return (await AppDbContext.Set<T>().AddAsync(entity)).Entity;
     }
 
     public void Update(T entity)
@@ -114,6 +114,6 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 
     public async Task<T?> FindAsync(params object?[]? keyValues)
     {
-       return await AppDbContext.FindAsync<T>(keyValues);
+        return await AppDbContext.FindAsync<T>(keyValues);
     }
 }

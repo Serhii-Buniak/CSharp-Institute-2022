@@ -1,9 +1,9 @@
 ﻿using BLL.DTOs;
 
-namespace BLL.Services
+namespace BLL.Services;
+
+public interface ICategoryService
 {
-    public interface ICategoryService
-    {
-        Task<CategoryDTO> GetByIdAsync(long id);
-    }
+    Task<CategoryDTO> GetByIdAsync(long id);
+    Task<CategoryDTO> CreateAsync(CategoryDTO categoryDTO);
 }

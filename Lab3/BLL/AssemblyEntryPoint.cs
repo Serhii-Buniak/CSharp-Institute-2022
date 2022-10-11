@@ -1,6 +1,3 @@
 ﻿namespace BLL;
 
-public static class AssemblyEntryPoint
-{
-
-}
+public static class AssemblyEntryPoint { }

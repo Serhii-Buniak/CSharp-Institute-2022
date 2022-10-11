@@ -8,7 +8,7 @@ internal class CityValidation : IEntityTypeConfiguration<City>
     public void Configure(EntityTypeBuilder<City> builder)
     {
         builder.Property(p => p.Name)
-        .HasMaxLength(100)
-        .IsRequired();
+            .HasMaxLength(100)
+            .IsRequired();
     }
 }

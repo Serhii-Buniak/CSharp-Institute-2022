@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BLL.DTOs;
+﻿using BLL.DTOs;
 using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +16,16 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetApartments(long id)
+    public async Task<IActionResult> GetApartment(long id)
     {
         CategoryDTO category = await _categoryService.GetByIdAsync(id);
         return Ok(category);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateApartment(CategoryDTO model)
+    {
+        CategoryDTO category = await _categoryService.CreateAsync(model);
+        return CreatedAtAction(nameof(GetApartment), new { id = category.Id }, category);
     }
 }

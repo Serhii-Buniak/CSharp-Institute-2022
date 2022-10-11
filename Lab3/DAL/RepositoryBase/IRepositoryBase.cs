@@ -7,8 +7,8 @@ public interface IRepositoryBase<T>
 {
     IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
     Task<T?> FindAsync(params object?[]? keyValues);  
-    void Create(T entity);
-    Task CreateAsync(T entity);
+    T Create(T entity);
+    Task<T> CreateAsync(T entity);
     void Update(T entity);
     void Delete(T entity);
     void Attach(T entity);
