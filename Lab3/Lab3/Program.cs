@@ -1,3 +1,4 @@
+using BLL;
 using DAL;
 using Lab3.StartupExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ var services = builder.Services;
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+
+services.AddAutoMapper(typeof(AssemblyEntryPoint).Assembly);
 
 services.AddServicesList();
 
