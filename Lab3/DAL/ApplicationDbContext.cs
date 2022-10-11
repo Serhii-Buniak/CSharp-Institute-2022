@@ -1,4 +1,6 @@
-﻿using DAL.Entities;
+﻿using DAL.Configurations;
+using DAL.Configurations.ManyToManyTables;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL;
@@ -20,16 +22,20 @@ public class ApplicationDbContext : DbContext
 
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<Event>(evnt =>
-        {
-            evnt
-            .HasOne(e => e.User)
-            .WithMany(e=> e.Events)
-            .OnDelete(DeleteBehavior.NoAction);
-        });
+        builder.ApplyConfiguration(new CountryConfiguration());
+        builder.ApplyConfiguration(new CityConfiguration());
+        builder.ApplyConfiguration(new GalleryConfiguration());
+        builder.ApplyConfiguration(new ImageConfiguration());
+        builder.ApplyConfiguration(new RoleConfiguration());
+        builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyRoleUserConfiguration();
+        builder.ApplyConfiguration(new MessageConfiguration());
+        builder.ApplyConfiguration(new EventConfiguration());
+        builder.ApplyConfiguration(new CategoryConfiguration());
+        builder.ApplyCategoryEventConfiguration();
 
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
     }
 }

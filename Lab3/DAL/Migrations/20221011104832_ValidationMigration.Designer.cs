@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221011104832_ValidationMigration")]
+    partial class ValidationMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,38 +37,6 @@ namespace DAL.Migrations
                     b.HasIndex("EventsId");
 
                     b.ToTable("CategoryEvent");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoriesId = 1L,
-                            EventsId = 1L
-                        },
-                        new
-                        {
-                            CategoriesId = 1L,
-                            EventsId = 2L
-                        },
-                        new
-                        {
-                            CategoriesId = 2L,
-                            EventsId = 2L
-                        },
-                        new
-                        {
-                            CategoriesId = 3L,
-                            EventsId = 3L
-                        },
-                        new
-                        {
-                            CategoriesId = 3L,
-                            EventsId = 4L
-                        },
-                        new
-                        {
-                            CategoriesId = 3L,
-                            EventsId = 5L
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
@@ -87,23 +57,6 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Name = "Category 1"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Name = "Category 2"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Name = "Category 3"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.City", b =>
@@ -127,26 +80,6 @@ namespace DAL.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CountryId = 1L,
-                            Name = "City 1"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CountryId = 2L,
-                            Name = "City 2"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CountryId = 3L,
-                            Name = "City 3"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Country", b =>
@@ -168,23 +101,6 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Countries");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Name = "Country 1"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Name = "Country 2"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Name = "Country 3"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Event", b =>
@@ -221,48 +137,6 @@ namespace DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CityId = 1L,
-                            GalleryId = 1L,
-                            Name = "Event 1",
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CityId = 1L,
-                            GalleryId = 1L,
-                            Name = "Event 2",
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CityId = 1L,
-                            GalleryId = 1L,
-                            Name = "Event 3",
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            CityId = 2L,
-                            GalleryId = 2L,
-                            Name = "Event 4",
-                            UserId = 2L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            CityId = 3L,
-                            GalleryId = 3L,
-                            Name = "Event 5",
-                            UserId = 3L
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Gallery", b =>
@@ -284,23 +158,6 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Galleries");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Name = "Gallery 1"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Name = "Gallery 2"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Name = "Gallery 3"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Image", b =>
@@ -327,44 +184,6 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Images");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            GalleryId = 1L,
-                            Name = "Image 1"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            GalleryId = 2L,
-                            Name = "Image 2"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            GalleryId = 2L,
-                            Name = "Image 3"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            GalleryId = 3L,
-                            Name = "Image 4"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            GalleryId = 3L,
-                            Name = "Image 5"
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            GalleryId = 3L,
-                            Name = "Image 6"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Message", b =>
@@ -386,38 +205,6 @@ namespace DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Messages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreateAt = new DateTime(2022, 10, 11, 15, 3, 26, 125, DateTimeKind.Local).AddTicks(7042),
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CreateAt = new DateTime(2022, 10, 11, 15, 3, 26, 125, DateTimeKind.Local).AddTicks(7079),
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CreateAt = new DateTime(2022, 10, 11, 15, 3, 26, 125, DateTimeKind.Local).AddTicks(7082),
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            CreateAt = new DateTime(2022, 10, 11, 15, 3, 26, 125, DateTimeKind.Local).AddTicks(7085),
-                            UserId = 2L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            CreateAt = new DateTime(2022, 10, 11, 15, 3, 26, 125, DateTimeKind.Local).AddTicks(7087),
-                            UserId = 3L
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Role", b =>
@@ -438,23 +225,6 @@ namespace DAL.Migrations
                     b.HasAlternateKey("Name");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Name = "Role 1"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Name = "Role 2"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Name = "Role 3"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -497,38 +267,6 @@ namespace DAL.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CityId = 1L,
-                            Email = "user1@email.com",
-                            FirstName = "FirstName1",
-                            LastName = "LastName1",
-                            Password = "Password1",
-                            Telephone = "00000000001"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CityId = 2L,
-                            Email = "user2@email.com",
-                            FirstName = "FirstName2",
-                            LastName = "LastName2",
-                            Password = "Password2",
-                            Telephone = "00000000002"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CityId = 3L,
-                            Email = "user3@email.com",
-                            FirstName = "FirstName3",
-                            LastName = "LastName3",
-                            Password = "Password3",
-                            Telephone = "00000000003"
-                        });
                 });
 
             modelBuilder.Entity("RoleUser", b =>
@@ -544,28 +282,6 @@ namespace DAL.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("RoleUser");
-
-                    b.HasData(
-                        new
-                        {
-                            RolesId = 1L,
-                            UsersId = 1L
-                        },
-                        new
-                        {
-                            RolesId = 2L,
-                            UsersId = 1L
-                        },
-                        new
-                        {
-                            RolesId = 2L,
-                            UsersId = 2L
-                        },
-                        new
-                        {
-                            RolesId = 3L,
-                            UsersId = 3L
-                        });
                 });
 
             modelBuilder.Entity("CategoryEvent", b =>

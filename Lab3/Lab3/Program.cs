@@ -2,6 +2,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var services = builder.Services;
 
 services.AddControllers();
