@@ -1,4 +1,5 @@
 using DAL;
+using Lab3.StartupExtensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ var services = builder.Services;
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+
+services.AddServicesList();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
