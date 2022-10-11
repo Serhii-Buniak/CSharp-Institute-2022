@@ -1,6 +1,4 @@
-﻿using DAL.Configurations;
-using DAL.Configurations.ManyToManyTables;
-using DAL.Entities;
+﻿using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL;
@@ -24,17 +22,31 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new CountryConfiguration());
-        builder.ApplyConfiguration(new CityConfiguration());
-        builder.ApplyConfiguration(new GalleryConfiguration());
-        builder.ApplyConfiguration(new ImageConfiguration());
-        builder.ApplyConfiguration(new RoleConfiguration());
-        builder.ApplyConfiguration(new UserConfiguration());
-        builder.ApplyRoleUserConfiguration();
-        builder.ApplyConfiguration(new MessageConfiguration());
-        builder.ApplyConfiguration(new EventConfiguration());
-        builder.ApplyConfiguration(new CategoryConfiguration());
-        builder.ApplyCategoryEventConfiguration();
+        #region Validation
+        builder.ApplyConfiguration(new CountryValidation());
+        builder.ApplyConfiguration(new CityValidation());
+        builder.ApplyConfiguration(new GalleryValidation());
+        builder.ApplyConfiguration(new ImageValidation());
+        builder.ApplyConfiguration(new RoleValidation());
+        builder.ApplyConfiguration(new UserValidation());
+        builder.ApplyConfiguration(new MessageValidation());
+        builder.ApplyConfiguration(new EventValidation());
+        builder.ApplyConfiguration(new CategoryValidation());
+        #endregion
+
+        #region SeedData
+        builder.ApplyConfiguration(new CountrySeeder());
+        builder.ApplyConfiguration(new CitySeeder());
+        builder.ApplyConfiguration(new GallerySeeder());
+        builder.ApplyConfiguration(new ImageSeeder());
+        builder.ApplyConfiguration(new RoleSeeder());
+        builder.ApplyConfiguration(new UserSeeder());
+        builder.ApplyRoleUserSeeder();
+        builder.ApplyConfiguration(new MessageSeeder());
+        builder.ApplyConfiguration(new EventSeeder());
+        builder.ApplyConfiguration(new CategorySeeder());
+        builder.ApplyCategoryEventSeeder();
+        #endregion
 
         base.OnModelCreating(builder);
     }

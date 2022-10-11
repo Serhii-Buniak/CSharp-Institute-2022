@@ -1,19 +1,12 @@
-﻿using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DAL.Configurations;
+namespace DAL.Entities;
 
-public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+internal class CategorySeeder : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
-        builder.Property(p => p.Name)
-            .IsRequired();
-
-        builder.HasIndex(p => p.Name)
-            .IsUnique();
-
         builder.HasData(new List<Category>()
         {
             new() {Id = 1, Name = "Category 1"},

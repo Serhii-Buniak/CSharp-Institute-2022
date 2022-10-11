@@ -1,20 +1,12 @@
-﻿using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DAL.Configurations;
+namespace DAL.Entities;
 
-public class CountryConfiguration : IEntityTypeConfiguration<Country>
+public class CountrySeeder : IEntityTypeConfiguration<Country>
 {
     public void Configure(EntityTypeBuilder<Country> builder)
     {
-        builder.Property(p => p.Name)
-               .HasMaxLength(50)
-               .IsRequired();
-
-        builder.HasIndex(p => p.Name)
-            .IsUnique();
-
         builder.HasData(new List<Country>()
         {
             new() {Id = 1, Name = "Country 1"},

@@ -1,17 +1,12 @@
-﻿using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DAL.Configurations;
+namespace DAL.Entities;
 
-public class CityConfiguration : IEntityTypeConfiguration<City>
+internal class CitySeeder : IEntityTypeConfiguration<City>
 {
     public void Configure(EntityTypeBuilder<City> builder)
     {
-        builder.Property(p => p.Name)
-        .HasMaxLength(100)
-        .IsRequired();
-
         builder.HasData(new List<City>()
         {
             new() {Id = 1, Name = "City 1", CountryId = 1},

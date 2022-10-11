@@ -1,24 +1,12 @@
-﻿using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DAL.Configurations;
+namespace DAL.Entities;
 
-public class EventConfiguration : IEntityTypeConfiguration<Event>
+internal class EventSeeder : IEntityTypeConfiguration<Event>
 {
     public void Configure(EntityTypeBuilder<Event> builder)
     {
-        builder.HasOne(e => e.User)
-            .WithMany(e => e.Events)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        builder.Property(p => p.Name)
-            .HasMaxLength(250)
-            .IsRequired();
-
-        builder.HasIndex(p => p.Name)
-            .IsUnique();
-
         builder.HasData(new List<Event>()
         {
             new() {Id = 1, Name = "Event 1", UserId = 1, CityId = 1, GalleryId = 1,},

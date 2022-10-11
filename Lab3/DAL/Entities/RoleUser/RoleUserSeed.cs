@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Configurations.ManyToManyTables;
+namespace DAL.Entities;
 
-public static class RoleUserConfiguration
+internal static class RoleUserSeed
 {
-    public static ModelBuilder ApplyRoleUserConfiguration(this ModelBuilder builder)
+    public static ModelBuilder ApplyRoleUserSeeder(this ModelBuilder builder)
     {
         builder.Entity("RoleUser", roleUser =>
         {

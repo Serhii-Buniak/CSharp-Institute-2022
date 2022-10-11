@@ -1,20 +1,12 @@
-﻿using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DAL.Configurations;
+namespace DAL.Entities;
 
-public class ImageConfiguration : IEntityTypeConfiguration<Image>
+internal class ImageSeeder : IEntityTypeConfiguration<Image>
 {
     public void Configure(EntityTypeBuilder<Image> builder)
     {
-        builder.Property(p => p.Name)
-            .HasMaxLength(300)
-            .IsRequired();
-
-        builder.HasIndex(p => p.Name)
-            .IsUnique();
-
         builder.HasData(new List<Image>()
         {
             new() {Id = 1, Name="Image 1", GalleryId = 1},

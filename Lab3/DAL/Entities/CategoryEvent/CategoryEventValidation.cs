@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Configurations.ManyToManyTables;
+namespace DAL.Entities;
 
-public static class CategoryEventConfiguration
+internal static class CategoryEventSeed
 {
-    public static ModelBuilder ApplyCategoryEventConfiguration(this ModelBuilder builder)
+    public static ModelBuilder ApplyCategoryEventSeeder(this ModelBuilder builder)
     {
         builder.Entity("CategoryEvent", categoryEvent =>
         {
