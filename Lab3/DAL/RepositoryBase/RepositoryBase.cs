@@ -8,69 +8,77 @@ namespace DAL.RepositoryBase;
 public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
     protected ApplicationDbContext AppDbContext { get; set; }
+    protected DbSet<T> DbSet { get; set; }
 
     public RepositoryBase(ApplicationDbContext appDbContext)
     {
         AppDbContext = appDbContext;
+        DbSet = appDbContext.Set<T>();
     }
+
+    public Func<IQueryable<T>, IIncludableQueryable<T, object>>? Include { get; set; } = null;
 
     public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
     {
-        return AppDbContext.Set<T>().Where(expression).AsNoTracking();
+        return DbSet.Where(expression).AsNoTracking();
     }
 
-    public T Create(T entity)
+    public void Create(T entity)
     {
-        return (AppDbContext.Set<T>().Add(entity)).Entity;
+        DbSet.Add(entity);
     }
 
-    public async Task<T> CreateAsync(T entity)
+    public async Task CreateAsync(T entity)
     {
-        return (await AppDbContext.Set<T>().AddAsync(entity)).Entity;
+        await DbSet.AddAsync(entity);
     }
 
     public void Update(T entity)
     {
-        AppDbContext.Set<T>().Update(entity);
+        DbSet.Update(entity);
     }
 
-    public T Delete(T entity)
+    public void Delete(T entity)
     {
-       return AppDbContext.Set<T>().Remove(entity).Entity;
-    }
-
-    public async Task<T> DeleteAsync(params object?[]? keyValues)
-    {
-        T? model = await FindAsync(keyValues);
-        return Delete(model!);
+        DbSet.Remove(entity);
     }
 
     public void Attach(T entity)
     {
-        AppDbContext.Set<T>().Attach(entity);
+        DbSet.Attach(entity);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null)
     {
-        return await GetQuery(predicate, include).ToListAsync();
+        return await GetQuery(predicate).ToListAsync();
     }
 
     public async Task<Tuple<IEnumerable<T>, int>> GetRangeAsync(Expression<Func<T, bool>>? filter = null,
                                                            Expression<Func<T, T>>? selector = null,
                                                            Func<IQueryable<T>, IQueryable<T>>? sorting = null,
-                                                           Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
                                                            int? pageNumber = null,
                                                            int? pageSize = null)
     {
-        return await GetRangeQuery(filter, selector, sorting, include, pageNumber, pageSize);
+        return await GetRangeQuery(filter, selector, sorting, pageNumber, pageSize);
     }
 
-    private IQueryable<T> GetQuery(Expression<Func<T, bool>>? predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
+    public async Task<T> SingleAsync(Expression<Func<T, bool>>? predicate = null)
     {
-        var query = AppDbContext.Set<T>().AsNoTracking();
-        if (include != null)
+        var query = GetQuery(predicate);
+        return await query.SingleAsync();
+    }
+
+    public async Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>>? predicate = null)
+    {
+        return await GetQuery(predicate).SingleOrDefaultAsync();
+    }
+
+    private IQueryable<T> GetQuery(Expression<Func<T, bool>>? predicate = null)
+    {
+        var query = DbSet.AsNoTracking();
+        if (Include != null)
         {
-            query = include(query);
+            query = Include(query);
         }
         if (predicate != null)
         {
@@ -81,15 +89,14 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     private async Task<Tuple<IEnumerable<T>, int>> GetRangeQuery(Expression<Func<T, bool>>? filter = null,
                                                       Expression<Func<T, T>>? selector = null,
                                                       Func<IQueryable<T>, IQueryable<T>>? sorting = null,
-                                                      Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
                                                       int? pageNumber = null,
                                                       int? pageSize = null)
     {
-        var query = AppDbContext.Set<T>().AsNoTracking();
+        var query = DbSet.AsNoTracking();
 
-        if (include != null)
+        if (Include != null)
         {
-            query = include(query);
+            query = Include(query);
         }
 
         if (filter != null)
@@ -116,10 +123,5 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
         }
 
         return new Tuple<IEnumerable<T>, int>(query, TotalRecords);
-    }
-
-    public async Task<T?> FindAsync(params object?[]? keyValues)
-    {
-        return await AppDbContext.FindAsync<T>(keyValues);
     }
 }

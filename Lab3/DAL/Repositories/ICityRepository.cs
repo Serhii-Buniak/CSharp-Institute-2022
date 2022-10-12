@@ -3,7 +3,7 @@ using DAL.RepositoryBase;
 
 namespace DAL.Repositories;
 
-public interface ICategoryRepository : IRepositoryBase<Category>
+public interface ICityRepository : IRepositoryBase<City>
 {
 
 }

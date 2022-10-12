@@ -16,14 +16,14 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetApartments()
+    public async Task<IActionResult> GetCategories()
     {
         IEnumerable<CategoryDTO> categories = await _categoryService.GetAllAsync();
         return Ok(categories);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetApartment(long id)
+    public async Task<IActionResult> GetCategory(long id)
     {
         try
         {
@@ -37,7 +37,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateApartment(CategoryDTO categoryDTO)
+    public async Task<IActionResult> CreateCategory(CategoryDTO categoryDTO)
     {
         if (!ModelState.IsValid)
         {
@@ -45,25 +45,38 @@ public class CategoryController : ControllerBase
         }
 
         categoryDTO = await _categoryService.CreateAsync(categoryDTO);
-        return CreatedAtAction(nameof(GetApartment), new { Id = categoryDTO.Id }, categoryDTO);
+        return CreatedAtAction(nameof(GetCategory), new { Id = categoryDTO.Id }, categoryDTO);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateApartment(long id, CategoryDTO categoryDTO)
+    public async Task<IActionResult> UpdateCategory(long id, CategoryDTO categoryDTO)
     {
         if (id != categoryDTO.Id)
         {
             return BadRequest(new { error = $"Id {nameof(categoryDTO)} not equal {id}" });
         }
-
-        categoryDTO = await _categoryService.UpdateAsync(id, categoryDTO);
-        return CreatedAtAction(nameof(GetApartment), new { Id = id }, categoryDTO);
+        try
+        {
+            categoryDTO = await _categoryService.UpdateAsync(id, categoryDTO);
+            return CreatedAtAction(nameof(GetCategory), new { Id = id }, categoryDTO);
+        }
+        catch (ArgumentNullException e)
+        {
+            return NotFound(new { error = e.Message });
+        }
     }
-    
+
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteApartment(long id)
+    public async Task<IActionResult> DeleteCategory(long id)
     {
-        await _categoryService.DeleteAsync(id);
-        return NoContent();
+        try
+        {
+            await _categoryService.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (ArgumentNullException e)
+        {
+            return NotFound(new { error = e.Message });
+        }
     }
 }

@@ -5,19 +5,19 @@ namespace DAL.RepositoryBase;
 
 public interface IRepositoryBase<T>
 {
+    Func<IQueryable<T>, IIncludableQueryable<T, object>>? Include { get; set; }
     IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
-    Task<T?> FindAsync(params object?[]? keyValues);  
-    T Create(T entity);
-    Task<T> CreateAsync(T entity);
+    void Create(T entity);
+    Task CreateAsync(T entity);
     void Update(T entity);
-    T Delete(T entity);
-    Task<T> DeleteAsync(params object?[]? keyValues);
+    void Delete(T entity);
     void Attach(T entity);
-    Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
+    Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null);
     Task<Tuple<IEnumerable<T>, int>> GetRangeAsync(Expression<Func<T, bool>>? filter = null,
                                                            Expression<Func<T, T>>? selector = null,
                                                            Func<IQueryable<T>, IQueryable<T>>? sorting = null,
-                                                           Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
                                                            int? pageNumber = null,
                                                            int? pageSize = null);
+    Task<T> SingleAsync(Expression<Func<T, bool>>? predicate = null);
+    Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>>? predicate = null);
 }

@@ -3,9 +3,9 @@ using DAL.Entities;
 
 namespace BLL.DTOs;
 
-internal class CityMapping : Profile
+internal class CityDTOMapping : Profile
 {
-    public CityMapping()
+    public CityDTOMapping()
     {
         CreateMap<City, CityDTO>().ReverseMap();
     }

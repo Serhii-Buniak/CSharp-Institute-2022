@@ -9,6 +9,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRepositoryWrapper, RepositoryWrapper>();
         services.AddTransient<ICategoryService, CategoryService>();
+        services.AddTransient<ICityService, CityService>();
 
         return services;
     }

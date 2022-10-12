@@ -10,6 +10,7 @@ namespace DAL.RepositoryWrapper;
 public interface IRepositoryWrapper
 {
     ICategoryRepository CategoryRepository { get; }
+    ICityRepository CityRepository { get; }
     int Save();
     Task<int> SaveAsync();
 }

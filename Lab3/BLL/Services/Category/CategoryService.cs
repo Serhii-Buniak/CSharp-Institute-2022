@@ -27,11 +27,11 @@ public class CategoryService : ICategoryService
     
     public async Task<CategoryDTO> GetByIdAsync(long id)
     {
-        Category? category = await _categoryRepository.FindAsync(id);
+        Category? category = await _categoryRepository.SingleOrDefaultAsync(c => c.Id == id);
 
         if (category == null)
         {
-            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with {nameof(id)} id not exist");
+            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with id {id} not exist");
         }
 
         return _mapper.Map<CategoryDTO>(category);
@@ -49,7 +49,14 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryDTO> DeleteAsync(long id)
     {
-        Category category = await _categoryRepository.DeleteAsync(id);
+        Category? category = await _categoryRepository.SingleOrDefaultAsync(c => c.Id == id);
+
+        if (category == null)
+        {
+            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with id {id} not exist");
+        }
+
+        _categoryRepository.Delete(category);
         await _repositoryWrapper.SaveAsync();
 
         return _mapper.Map<CategoryDTO>(category);
@@ -57,17 +64,18 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryDTO> UpdateAsync(long id, CategoryDTO categoryDTO)
     {
-        Category? oldCategory = await _categoryRepository.FindAsync(id);
+        Category? category = await _categoryRepository.SingleOrDefaultAsync(c => c.Id == id);
 
-        if (oldCategory == null)
+        if (category == null)
         {
-            throw new ArgumentNullException(nameof(oldCategory), $"{nameof(Category)} with {nameof(id)} id not exist");
+            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with id {id} not exist");
         }
 
-        Category updatedCategory = _mapper.Map(categoryDTO, oldCategory);
-        _categoryRepository.Update(updatedCategory);
+        category = _mapper.Map(categoryDTO, category);
+
+        _categoryRepository.Update(category);
         await _repositoryWrapper.SaveAsync();
 
-        return _mapper.Map<CategoryDTO>(updatedCategory);
+        return _mapper.Map<CategoryDTO>(category);
     }
 }
