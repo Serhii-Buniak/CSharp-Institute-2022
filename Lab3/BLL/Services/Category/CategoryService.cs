@@ -31,7 +31,7 @@ public class CategoryService : ICategoryService
 
         if (category == null)
         {
-            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with id {id} not exist");
+            throw new ArgumentException(nameof(category), $"{nameof(Category)} with id {id} not exist");
         }
 
         return _mapper.Map<CategoryDTO>(category);
@@ -53,7 +53,7 @@ public class CategoryService : ICategoryService
 
         if (category == null)
         {
-            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with id {id} not exist");
+            throw new ArgumentException(nameof(category), $"{nameof(Category)} with id {id} not exist");
         }
 
         _categoryRepository.Delete(category);
@@ -68,7 +68,7 @@ public class CategoryService : ICategoryService
 
         if (category == null)
         {
-            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with id {id} not exist");
+            throw new ArgumentException(nameof(category), $"{nameof(Category)} with id {id} not exist");
         }
 
         category = _mapper.Map(categoryDTO, category);

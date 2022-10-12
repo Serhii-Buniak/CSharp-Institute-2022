@@ -30,7 +30,7 @@ public class CityController : ControllerBase
             CityDTO city = await _cityService.GetByIdAsync(id);
             return Ok(city);
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentException e)
         {
             return NotFound(new { error = e.Message });
         }
@@ -56,7 +56,7 @@ public class CityController : ControllerBase
             CityDTO city = await _cityService.UpdateAsync(id, cityRequest);
             return CreatedAtAction(nameof(GetCity), new { Id = id }, city);
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentException e)
         {
             return NotFound(new { error = e.Message });
         }
@@ -70,7 +70,7 @@ public class CityController : ControllerBase
             await _cityService.DeleteAsync(id);
             return NoContent();
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentException e)
         {
             return NotFound(new { error = e.Message });
         }

@@ -36,7 +36,7 @@ public class CityService : ICityService
 
         if (city == null)
         {
-            throw new ArgumentNullException(nameof(city), $"{nameof(City)} with id {id} not exist");
+            throw new ArgumentException(nameof(city), $"{nameof(City)} with id {id} not exist");
         }
 
         return _mapper.Map<CityDTO>(city);
@@ -58,7 +58,7 @@ public class CityService : ICityService
 
         if (city == null)
         {
-            throw new ArgumentNullException(nameof(city), $"{nameof(City)} with id {id} not exist");
+            throw new ArgumentException(nameof(city), $"{nameof(City)} with id {id} not exist");
         }
 
         _cityRepository.Delete(city);
@@ -73,7 +73,7 @@ public class CityService : ICityService
 
         if (city == null)
         {
-            throw new ArgumentNullException(nameof(city), $"{nameof(City)} with id {id} not exist");
+            throw new ArgumentException(nameof(city), $"{nameof(City)} with id {id} not exist");
         }
 
         city = _mapper.Map(cityRequest, city);

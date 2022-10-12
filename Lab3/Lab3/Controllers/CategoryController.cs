@@ -30,7 +30,7 @@ public class CategoryController : ControllerBase
             CategoryDTO category = await _categoryService.GetByIdAsync(id);
             return Ok(category);
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentException e)
         {
             return NotFound(new { error = e.Message });
         }
@@ -60,7 +60,7 @@ public class CategoryController : ControllerBase
             categoryDTO = await _categoryService.UpdateAsync(id, categoryDTO);
             return CreatedAtAction(nameof(GetCategory), new { Id = id }, categoryDTO);
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentException e)
         {
             return NotFound(new { error = e.Message });
         }
@@ -74,7 +74,7 @@ public class CategoryController : ControllerBase
             await _categoryService.DeleteAsync(id);
             return NoContent();
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentException e)
         {
             return NotFound(new { error = e.Message });
         }
