@@ -19,13 +19,19 @@ public class CategoryService : ICategoryService
         _mapper = mapper;
     }
 
+    public async Task<IEnumerable<CategoryDTO>> GetAllAsync()
+    {
+        IEnumerable<Category> categories = await _categoryRepository.GetAllAsync();
+        return _mapper.Map<IEnumerable<CategoryDTO>>(categories);
+    }    
+    
     public async Task<CategoryDTO> GetByIdAsync(long id)
     {
         Category? category = await _categoryRepository.FindAsync(id);
 
         if (category == null)
         {
-            throw new ArgumentException($"{nameof(Category)} with {nameof(id)} id not exist", nameof(id));
+            throw new ArgumentNullException(nameof(category), $"{nameof(Category)} with {nameof(id)} id not exist");
         }
 
         return _mapper.Map<CategoryDTO>(category);
@@ -39,5 +45,29 @@ public class CategoryService : ICategoryService
         await _repositoryWrapper.SaveAsync();
 
         return _mapper.Map<CategoryDTO>(category);
+    }
+
+    public async Task<CategoryDTO> DeleteAsync(long id)
+    {
+        Category category = await _categoryRepository.DeleteAsync(id);
+        await _repositoryWrapper.SaveAsync();
+
+        return _mapper.Map<CategoryDTO>(category);
+    }
+
+    public async Task<CategoryDTO> UpdateAsync(long id, CategoryDTO categoryDTO)
+    {
+        Category? oldCategory = await _categoryRepository.FindAsync(id);
+
+        if (oldCategory == null)
+        {
+            throw new ArgumentNullException(nameof(oldCategory), $"{nameof(Category)} with {nameof(id)} id not exist");
+        }
+
+        Category updatedCategory = _mapper.Map(categoryDTO, oldCategory);
+        _categoryRepository.Update(updatedCategory);
+        await _repositoryWrapper.SaveAsync();
+
+        return _mapper.Map<CategoryDTO>(updatedCategory);
     }
 }

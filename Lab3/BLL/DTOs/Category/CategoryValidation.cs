@@ -2,7 +2,7 @@
 
 namespace BLL.DTOs;
 
-public class CategoryValidation : AbstractValidator<CategoryDTO>
+internal class CategoryValidation : AbstractValidator<CategoryDTO>
 {
     public CategoryValidation()
     {

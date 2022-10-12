@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Entities;
 
-public class CountrySeeder : IEntityTypeConfiguration<Country>
+internal class CountrySeeder : IEntityTypeConfiguration<Country>
 {
     public void Configure(EntityTypeBuilder<Country> builder)
     {

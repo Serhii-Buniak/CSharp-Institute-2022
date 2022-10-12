@@ -34,9 +34,15 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
         AppDbContext.Set<T>().Update(entity);
     }
 
-    public void Delete(T entity)
+    public T Delete(T entity)
     {
-        AppDbContext.Set<T>().Remove(entity);
+       return AppDbContext.Set<T>().Remove(entity).Entity;
+    }
+
+    public async Task<T> DeleteAsync(params object?[]? keyValues)
+    {
+        T? model = await FindAsync(keyValues);
+        return Delete(model!);
     }
 
     public void Attach(T entity)

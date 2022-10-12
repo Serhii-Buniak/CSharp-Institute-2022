@@ -10,7 +10,8 @@ public interface IRepositoryBase<T>
     T Create(T entity);
     Task<T> CreateAsync(T entity);
     void Update(T entity);
-    void Delete(T entity);
+    T Delete(T entity);
+    Task<T> DeleteAsync(params object?[]? keyValues);
     void Attach(T entity);
     Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
     Task<Tuple<IEnumerable<T>, int>> GetRangeAsync(Expression<Func<T, bool>>? filter = null,

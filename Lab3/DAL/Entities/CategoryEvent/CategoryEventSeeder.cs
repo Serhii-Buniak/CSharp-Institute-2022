@@ -2,7 +2,7 @@
 
 namespace DAL.Entities;
 
-internal static class CategoryEventSeed
+internal static class CategoryEventSeeder
 {
     public static ModelBuilder ApplyCategoryEventSeeder(this ModelBuilder builder)
     {

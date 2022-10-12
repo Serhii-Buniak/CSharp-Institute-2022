@@ -2,7 +2,7 @@
 
 namespace DAL.Entities;
 
-internal static class RoleUserSeed
+internal static class RoleUserSeeder
 {
     public static ModelBuilder ApplyRoleUserSeeder(this ModelBuilder builder)
     {
