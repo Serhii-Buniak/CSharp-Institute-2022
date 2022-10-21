@@ -3,6 +3,7 @@ using BLL.DTOs;
 using DAL.Entities;
 using DAL.Repositories;
 using DAL.RepositoryWrapper;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BLL.Services;
 
@@ -11,20 +12,30 @@ public class CategoryService : ICategoryService
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
+    private readonly IMemoryCache _memoryCache;
 
-    public CategoryService(IRepositoryWrapper repositoryWrapper, IMapper mapper)
+    public CategoryService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache)
     {
         _repositoryWrapper = repositoryWrapper;
         _categoryRepository = repositoryWrapper.CategoryRepository;
         _mapper = mapper;
+        _memoryCache = memoryCache;
     }
 
     public async Task<IEnumerable<CategoryDTO>> GetAllAsync()
     {
-        IEnumerable<Category> categories = await _categoryRepository.GetAllAsync();
+        IEnumerable<Category>? categories = _memoryCache.GetCategories();
+
+        if (categories is null)
+        {
+            categories = await _categoryRepository.GetAllAsync();
+            await Task.Delay(2500);
+            _memoryCache.SetCategories(categories, 60);
+        }
+
         return _mapper.Map<IEnumerable<CategoryDTO>>(categories);
-    }    
-    
+    }
+
     public async Task<CategoryDTO> GetByIdAsync(long id)
     {
         Category? category = await _categoryRepository.SingleOrDefaultAsync(c => c.Id == id);

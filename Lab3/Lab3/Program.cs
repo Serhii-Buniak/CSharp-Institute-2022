@@ -17,6 +17,7 @@ services.AddSwaggerGen();
 services.AddAutoMapper(typeof(AssemblyEntryPoint).Assembly);
 services.AddFluentValidationAutoValidation();
 services.AddValidatorsFromAssembly(typeof(AssemblyEntryPoint).Assembly);
+services.AddMemoryCache();
 
 services.AddServicesList();
 

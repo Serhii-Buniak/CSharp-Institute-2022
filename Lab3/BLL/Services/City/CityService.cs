@@ -5,6 +5,7 @@ using DAL.Repositories;
 using DAL.RepositoryWrapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BLL.Services;
 
@@ -13,20 +14,31 @@ public class CityService : ICityService
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ICityRepository _cityRepository;
     private readonly IMapper _mapper;
+    private readonly IMemoryCache _memoryCache;
 
     public static Func<IQueryable<City>, IIncludableQueryable<City, object>> Include => city => city.Include(c => c.Country);
 
-    public CityService(IRepositoryWrapper repositoryWrapper, IMapper mapper)
+    public CityService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache)
     {
         _repositoryWrapper = repositoryWrapper;
         _cityRepository = repositoryWrapper.CityRepository;
         _cityRepository.Include = Include;
         _mapper = mapper;
+        _memoryCache = memoryCache;
     }
 
     public async Task<IEnumerable<CityDTO>> GetAllAsync()
     {
-        IEnumerable<City> cities = await _cityRepository.GetAllAsync();
+        IEnumerable<City>? cities = _memoryCache.GetCities();
+
+        if (cities is null)
+        {
+            cities = await _cityRepository.GetAllAsync();
+            await Task.Delay(2500);
+            _memoryCache.SetCities(cities, 60);
+        }
+
+        cities = await _cityRepository.GetAllAsync();
         return _mapper.Map<IEnumerable<CityDTO>>(cities);
     }
 
