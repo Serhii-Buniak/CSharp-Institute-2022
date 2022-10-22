@@ -23,6 +23,12 @@ public static class ConfigureServices
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "Lab4CleanArchitecture_";
+        });
+
         return services;
     }
 }
