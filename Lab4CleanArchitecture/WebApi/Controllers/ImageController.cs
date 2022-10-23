@@ -19,15 +19,22 @@ public class ImageController : ApiControllerBase
         return Ok(images);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("Blob/{id}")]
     public async Task<IActionResult> GetImage(long id)
+    {
+        BlobData blob = await Mediator.Send(new GetImageBlobQuery(id));
+        return File(blob.Content, blob.ContentType, blob.Name);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetImageBlob(long id)
     {
         ImageDto image = await Mediator.Send(new GetImageQuery(id));
         return Ok(image);
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateImage(CreateImageCommand command)
+    public async Task<IActionResult> CreateImage([FromForm] CreateImageCommand command)
     {
         ImageDto image = await Mediator.Send(command);
         return Ok(image);
@@ -38,8 +45,8 @@ public class ImageController : ApiControllerBase
     {
         await Mediator.Send(new DeleteImageCommand(id));
         return NoContent();
-    }   
-    
+    }
+
     [HttpPatch("[action]")]
     public async Task<IActionResult> ChangeGallery(ChangeImageGalleryCommand command)
     {

@@ -18,10 +18,12 @@ public class DeleteImageCommand : IRequest
     public class DeleteImageCommandHandler : IRequestHandler<DeleteImageCommand>
     {
         private readonly IApplicationDbContext _dataContext;
+        private readonly IImageBlobService _blobService;
 
-        public DeleteImageCommandHandler(IApplicationDbContext applicationDbContext)
+        public DeleteImageCommandHandler(IApplicationDbContext applicationDbContext, IImageBlobService imageBlobService)
         {
             _dataContext = applicationDbContext;
+            _blobService = imageBlobService;
         }
 
         public async Task<Unit> Handle(DeleteImageCommand request, CancellationToken cancellationToken)
@@ -32,6 +34,8 @@ public class DeleteImageCommand : IRequest
             {
                 throw new NotFoundException(nameof(Image), request.Id);
             }
+
+            await _blobService.DeleteAsync(image.Id);
 
             _dataContext.Images.Remove(image);
             await _dataContext.SaveChangesAsync(cancellationToken);

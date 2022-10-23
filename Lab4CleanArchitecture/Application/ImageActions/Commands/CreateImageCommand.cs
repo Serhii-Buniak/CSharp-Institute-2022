@@ -4,22 +4,25 @@ using AutoMapper;
 using Domain.Entities;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.ImageActions.Commands;
 
 public class CreateImageCommand : IRequest<ImageDto>
 {
-    public string Name { get; set; } = null!;
+    public IFormFile File { get; set; } = null!;
     public long? GalleryId { get; set; } = null;
 
     public class CreateImageCommandHandler : IRequestHandler<CreateImageCommand, ImageDto>
     {
         private readonly IApplicationDbContext _dataContext;
+        private readonly IImageBlobService _blobService;
         private readonly IMapper _mapper;
 
-        public CreateImageCommandHandler(IApplicationDbContext applicationDbContext, IMapper mapper)
+        public CreateImageCommandHandler(IApplicationDbContext applicationDbContext, IImageBlobService imageBlobService, IMapper mapper)
         {
             _dataContext = applicationDbContext;
+            _blobService = imageBlobService;
             _mapper = mapper;
         }
 
@@ -27,14 +30,16 @@ public class CreateImageCommand : IRequest<ImageDto>
         {
             Image image = new()
             {
-                Name = request.Name,
+                Name = request.File.FileName,
                 GalleryId = request.GalleryId
             };
+
+            await _blobService.UploadAsync(request.File);
 
             await _dataContext.Images.AddAsync(image, cancellationToken);
             await _dataContext.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<ImageDto>(image); ;
+            return _mapper.Map<ImageDto>(image);
         }
     }
 
@@ -46,16 +51,18 @@ public class CreateImageCommand : IRequest<ImageDto>
         {
             _dataContext = dataContext;
 
-            RuleFor(x => x.Name)
-                .NotNull()
+            RuleFor(x => x.File)
+                .NotNull();
+
+            RuleFor(x => x.File.FileName)
                 .NotEmpty()
                 .MaximumLength(300)
-                .Must(IsUniqueName).WithMessage(x => $"Image with '{x.Name}' Name already exist");
+                .Must(IsUniqueName).WithMessage(x => $"Image with '{x.File.FileName}' Name already exist");
         }
 
         private bool IsUniqueName(CreateImageCommand image, string value)
         {
-            return !_dataContext.Images.Any(x => image.Name == x.Name);
+            return !_dataContext.Images.Any(x => image.File.FileName == x.Name);
         }
     }
 }
