@@ -1,0 +1,28 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/City/{everything}",
+      "ServiceName": "city",
+      "UpstreamPathTemplate": "/gateway/City/{everything}",
+      "SwaggerKey": "city"
+    },
+    {
+      "DownstreamPathTemplate": "/api/City",
+      "ServiceName": "city",
+      "UpstreamPathTemplate": "/gateway/City",
+      "SwaggerKey": "city"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Category/{everything}",
+      "ServiceName": "city",
+      "UpstreamPathTemplate": "/gateway/Category/{everything}",
+      "SwaggerKey": "city"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Category",
+      "ServiceName": "city",
+      "UpstreamPathTemplate": "/gateway/Category",
+      "SwaggerKey": "city"
+    }
+  ]
+}

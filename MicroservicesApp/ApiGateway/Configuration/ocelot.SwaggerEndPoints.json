@@ -1,0 +1,30 @@
+{
+	"SwaggerEndPoints": [
+		{
+			"Key": "image",
+			"Config": [
+				{
+					"Name": "Image API",
+					"Version": "v1",
+					"Service": {
+						"Name": "image",
+						"Path": "/swagger/v1/swagger.json"
+					}
+				}
+			]
+		},
+		{
+			"Key": "city",
+			"Config": [
+				{
+					"Name": "City API",
+					"Version": "v1",
+					"Service": {
+						"Name": "city",
+						"Path": "/swagger/v1/swagger.json"
+					}
+				}
+			]
+		}
+	]
+}
