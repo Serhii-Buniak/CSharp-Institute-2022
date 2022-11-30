@@ -1,0 +1,17 @@
+{
+	"SwaggerEndPoints": [
+		{
+			"Key": "City",
+			"Config": [
+				{
+					"Name": "City API",
+					"Version": "v1",
+					"Service": {
+						"Name": "City",
+						"Path": "/swagger/v1/swagger.json"
+					}
+				}
+			]
+		}
+	]
+}
