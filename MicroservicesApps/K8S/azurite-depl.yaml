@@ -19,6 +19,13 @@ spec:
             - containerPort: 10000
             - containerPort: 10001
             - containerPort: 10002
+          volumeMounts:
+            - name: blob-pvc
+              mountPath: /data
+      volumes:
+        - name: blob-pvc
+          persistentVolumeClaim:
+            claimName: blob-pvc
 ---
 apiVersion: v1
 kind: Service

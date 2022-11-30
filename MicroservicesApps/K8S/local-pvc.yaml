@@ -39,3 +39,17 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: blob-pvc
+spec:
+  selector:
+    matchLabels:
+      disk: blob-pvc
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
