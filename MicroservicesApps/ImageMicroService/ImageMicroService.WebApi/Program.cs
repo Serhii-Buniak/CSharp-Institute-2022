@@ -15,8 +15,22 @@ services.AddSwaggerGen();
 services.AddApplicationServices();
 services.AddInfrastructureServices(configuration);
 
+const string corsName = "image-micro-service";
+services.AddCors(options =>
+{
+    options.AddPolicy(corsName,
+    corsbuilder =>
+    {
+        corsbuilder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
+app.UseCors(corsName);
 
 app.UseSwagger();
 app.UseSwaggerUI();

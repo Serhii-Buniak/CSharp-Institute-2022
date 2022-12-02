@@ -34,7 +34,7 @@ namespace CityMicroService.DAL.Migrations
 
                     b.HasIndex("EventsId");
 
-                    b.ToTable("CategoryEvent");
+                    b.ToTable("CategoryEvent", (string)null);
 
                     b.HasData(
                         new
@@ -86,7 +86,7 @@ namespace CityMicroService.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -126,7 +126,7 @@ namespace CityMicroService.DAL.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
 
                     b.HasData(
                         new
@@ -167,7 +167,7 @@ namespace CityMicroService.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
 
                     b.HasData(
                         new
@@ -220,7 +220,7 @@ namespace CityMicroService.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
 
                     b.HasData(
                         new
@@ -283,7 +283,7 @@ namespace CityMicroService.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Galleries");
+                    b.ToTable("Galleries", (string)null);
 
                     b.HasData(
                         new
@@ -326,7 +326,7 @@ namespace CityMicroService.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
 
                     b.HasData(
                         new
@@ -385,7 +385,7 @@ namespace CityMicroService.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
 
                     b.HasData(
                         new
@@ -437,7 +437,7 @@ namespace CityMicroService.DAL.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -496,7 +496,7 @@ namespace CityMicroService.DAL.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -543,7 +543,7 @@ namespace CityMicroService.DAL.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleUser", (string)null);
 
                     b.HasData(
                         new

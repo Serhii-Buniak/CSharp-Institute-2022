@@ -12,6 +12,19 @@
 					}
 				}
 			]
+		},
+		{
+			"Key": "Image",
+			"Config": [
+				{
+					"Name": "Image API",
+					"Version": "v1",
+					"Service": {
+						"Name": "Image",
+						"Path": "/swagger/v1/swagger.json"
+					}
+				}
+			]
 		}
 	]
 }
