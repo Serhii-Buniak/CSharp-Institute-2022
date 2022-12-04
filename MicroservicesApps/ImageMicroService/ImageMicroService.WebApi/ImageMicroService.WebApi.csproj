@@ -22,5 +22,7 @@
     <ProjectReference Include="..\ImageMicroService.Application\ImageMicroService.Application.csproj" />
     <ProjectReference Include="..\ImageMicroService.Infrastructure\ImageMicroService.Infrastructure.csproj" />
   </ItemGroup>
+	
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
