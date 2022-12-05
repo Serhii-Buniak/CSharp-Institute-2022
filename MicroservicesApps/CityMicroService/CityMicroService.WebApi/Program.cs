@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using CityMicroService.WebApi.GrpcControllers;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -15,6 +16,7 @@ var configuration = builder.Configuration;
 
 services.AddFluentValidationAutoValidation();
 services.AddValidatorsFromAssembly(typeof(AssemblyEntryPoint).Assembly);
+
 
 services.AddControllers();
 
@@ -97,6 +99,8 @@ services.AddCors(options =>
     });
 });
 
+services.AddGrpc();
+
 var app = builder.Build();
 
 app.UseCors(corsName);
@@ -104,12 +108,17 @@ app.UseCors(corsName);
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<CityGrpcController>();
+app.MapGet("/protos/city.server.proto", async context =>
+{
+    await context.Response.WriteAsync(File.ReadAllText("../CityMicroService.BLL/Protos/city.server.proto"));
+});
 
 PrepDb.PrepPopulation(builder);
 

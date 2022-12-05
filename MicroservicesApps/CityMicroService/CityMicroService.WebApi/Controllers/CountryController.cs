@@ -45,7 +45,7 @@ public class CountryController : ControllerBase
         }
 
         CountryDTO country = await _countryService.CreateAsync(countryRequest);
-        return CreatedAtAction(nameof(GetCity), new { Id = country.Id }, country);
+        return CreatedAtAction(nameof(GetCity), new { country.Id }, country);
     }
 
     [HttpPut("{id}")]

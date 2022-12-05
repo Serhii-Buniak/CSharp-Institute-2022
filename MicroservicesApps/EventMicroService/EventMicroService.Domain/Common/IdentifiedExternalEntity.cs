@@ -1,11 +1,11 @@
 ﻿namespace EventMicroService.Domain.Common;
 
-public class IdentifiedExternalEntity<Key, EKey> : IdentifiedEntity<Key>, IExternalEntity<EKey>
+public class IdentifiedExternalEntity<Key> : IdentifiedEntity<Key>, IExternalEntity<Key>
 {
-    public EKey ExternalId { get; set; } = default!;
+    public Key ExternalId { get; set; } = default!;
 }
 
-public class IdentifiedExternalEntity : IdentifiedExternalEntity<long, long>
+public class IdentifiedExternalEntity : IdentifiedExternalEntity<long>
 {
 
 }

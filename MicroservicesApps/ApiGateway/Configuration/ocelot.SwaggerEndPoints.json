@@ -38,6 +38,19 @@
 					}
 				}
 			]
+		},
+		{
+			"Key": "Event",
+			"Config": [
+				{
+					"Name": "Event API",
+					"Version": "v1",
+					"Service": {
+						"Name": "Event",
+						"Path": "/swagger/v1/swagger.json"
+					}
+				}
+			]
 		}
 	]
 }

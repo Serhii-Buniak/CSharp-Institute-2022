@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CityMicroService.BLL.Protos;
 using CityMicroService.DAL.Entities;
 
 namespace CityMicroService.BLL.DTOs;
@@ -9,5 +10,6 @@ internal class CityMapping : Profile
     {
         CreateMap<City, CityDTO>().ReverseMap();
         CreateMap<City, CityRequestDTO>().ReverseMap();
+        CreateMap<GrpcCityModel, CityDTO>().ReverseMap();
     }
 }

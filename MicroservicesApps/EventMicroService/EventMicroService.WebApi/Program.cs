@@ -1,4 +1,6 @@
+using EventMicroService.Application;
 using EventMicroService.Infrastructure;
+using EventMicroService.WebApi.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -7,6 +9,13 @@ var configuration = builder.Configuration;
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+
+services.AddControllers(options =>
+    options.Filters.Add<ApiExceptionFilterAttribute>()
+);
+
+services.AddApplicationServices();
+services.AddInfrastructureServices(configuration);
 
 const string corsName = "event-micro-service";
 services.AddCors(options =>
