@@ -17,7 +17,6 @@ var configuration = builder.Configuration;
 services.AddFluentValidationAutoValidation();
 services.AddValidatorsFromAssembly(typeof(AssemblyEntryPoint).Assembly);
 
-
 services.AddControllers();
 
 services.AddEndpointsApiExplorer();
@@ -108,7 +107,7 @@ app.UseCors(corsName);
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
