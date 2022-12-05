@@ -25,6 +25,19 @@
 					}
 				}
 			]
+		},
+		{
+			"Key": "Identity",
+			"Config": [
+				{
+					"Name": "Identity API",
+					"Version": "v1",
+					"Service": {
+						"Name": "Identity",
+						"Path": "/swagger/v1/swagger.json"
+					}
+				}
+			]
 		}
 	]
 }

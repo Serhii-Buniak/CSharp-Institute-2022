@@ -1,35 +1,41 @@
-using CityMicroService.BLL;
-using CityMicroService.DAL;
-using CityMicroService.WebApi.StartupExtensions;
-using Microsoft.EntityFrameworkCore;
-using FluentValidation;
 using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text;
+using System.Reflection;
+using IdentityMicroService.BLL.Settings;
+using IdentityMicroService.BLL.DAL.Data;
+using IdentityMicroService.BLL.Services;
+using IdentityMicroService.BLL.WebApi;
+using IdentityMicroService.BLL.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
 services.AddFluentValidationAutoValidation();
-services.AddValidatorsFromAssembly(typeof(AssemblyEntryPoint).Assembly);
+services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(AuthorizationConfigs)));
 
-services.AddControllers();
-
-services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
-
-services.AddAutoMapper(typeof(AssemblyEntryPoint).Assembly);
-services.AddMemoryCache();
-
-services.AddServicesList();
+services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
+{
+    opt.User.RequireUniqueEmail= true;
+
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireLowercase = false;
+
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 
 services.AddAuthentication(opt =>
 {
@@ -83,8 +89,19 @@ services.AddSwaggerGen(c =>
     });
 });
 
+services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-const string corsName = "city-micro-service";
+services.AddScoped<IAuthService, AuthService>();
+services.AddScoped<IRoleService, RoleService>();
+services.AddScoped<IUserService, UserService>();
+
+services.AddControllers();
+
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+
+
+const string corsName = "identity-micro-service";
 services.AddCors(options =>
 {
     options.AddPolicy(corsName,
@@ -96,6 +113,7 @@ services.AddCors(options =>
             .AllowAnyOrigin();
     });
 });
+
 
 var app = builder.Build();
 

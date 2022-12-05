@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>0b155dc9-114e-4fc3-9c04-92075a796670</UserSecretsId>
+    <UserSecretsId>7c96e117-ec32-4b21-b588-4c945c2a0aac</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -17,12 +17,10 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
-	
+
   <ItemGroup>
-    <ProjectReference Include="..\ImageMicroService.Application\ImageMicroService.Application.csproj" />
-    <ProjectReference Include="..\ImageMicroService.Infrastructure\ImageMicroService.Infrastructure.csproj" />
+    <ProjectReference Include="..\EventMicroService.Application\EventMicroService.Application.csproj" />
+    <ProjectReference Include="..\EventMicroService.Infrastructure\EventMicroService.Infrastructure.csproj" />
   </ItemGroup>
-	
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

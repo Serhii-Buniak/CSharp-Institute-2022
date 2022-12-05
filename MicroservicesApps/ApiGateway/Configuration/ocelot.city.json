@@ -5,7 +5,7 @@
       "ServiceName": "City",
       "UpstreamPathTemplate": "/api/City",
       "SwaggerKey": "City"
-    },    
+    },
     {
       "DownstreamPathTemplate": "/api/City/{everything}",
       "ServiceName": "City",
@@ -17,11 +17,20 @@
       "ServiceName": "City",
       "UpstreamPathTemplate": "/api/Country",
       "SwaggerKey": "City"
-    },    
+    },
     {
       "DownstreamPathTemplate": "/api/Country/{everything}",
       "ServiceName": "City",
       "UpstreamPathTemplate": "/api/Country/{everything}",
+      "SwaggerKey": "City"
+    },
+    {
+      "DownstreamPathTemplate": "/api/TestAuth2/{everything}",
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": false
+      },
+      "ServiceName": "City",
+      "UpstreamPathTemplate": "/api/TestAuth2/{everything}",
       "SwaggerKey": "City"
     }
   ]
