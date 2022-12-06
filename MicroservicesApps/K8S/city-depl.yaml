@@ -29,6 +29,10 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
+  - name: citygrpc
+    protocol: TCP
+    port: 50051
+    targetPort: 50051
 ---
 apiVersion: v1
 kind: Service

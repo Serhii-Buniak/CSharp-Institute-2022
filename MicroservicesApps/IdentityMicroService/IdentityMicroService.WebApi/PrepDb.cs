@@ -1,4 +1,5 @@
-﻿using IdentityMicroService.BLL.DAL.Data;
+﻿using IdentityMicroService.BLL.Clients.Grpc;
+using IdentityMicroService.BLL.DAL.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static IdentityMicroService.BLL.Constants.AuthorizationConfigs;
@@ -12,21 +13,34 @@ public static class PrepDb
         using ServiceProvider provider = builder.Services.BuildServiceProvider();
         var context = provider.GetRequiredService<ApplicationDbContext>();
         var roleManager = provider.GetRequiredService<RoleManager<ApplicationRole>>();
+        var cityClient = provider.GetRequiredService<ICityClient>();
 
-        SeedData(context, roleManager);
+        SeedData(context, roleManager, cityClient);
     }
 
-    private static void SeedData(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager)
+    private static void SeedData(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager, ICityClient cityClient)
     {
         context.Database.Migrate();
 
-        if (!context.Cities.Any())
+        IEnumerable<City> cities = cityClient.GetAllCities();
+        IEnumerable<Country> countries = cityClient.GetAllCountries();
+
+        foreach (Country country in countries)
         {
-            context.Cities.Add(new City
+            if (!context.Countries.Any(c => c.ExternalId == country.ExternalId))
             {
-                Name = "Cityname",
-                Country = new Country { Name = "Countryname", ExternalId = 1 }
-            });
+                context.Countries.Add(country);
+                context.SaveChanges();
+            }
+        }
+
+        foreach (City city in cities)
+        {
+            if (!context.Cities.Any(c => c.ExternalId == city.ExternalId))
+            {
+                context.Cities.Add(city);
+                context.SaveChanges();
+            }
         }
 
         foreach (Roles key in roleDict.Keys)

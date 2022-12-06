@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "CityMicroService.BLL.Protos";
+option csharp_namespace = "IdentityMicroService.BLL.Protos";
 
 package city;
 

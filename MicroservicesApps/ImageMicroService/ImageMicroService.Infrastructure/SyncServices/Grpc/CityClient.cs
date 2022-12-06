@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using Grpc.Core;
 using Grpc.Net.Client;
-using ImageMicroService.Application.Common.Interfaces;
 using ImageMicroService.Infrastructure.Protos;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace ImageMicroService.Infrastructure.SyncServices.Grpc;

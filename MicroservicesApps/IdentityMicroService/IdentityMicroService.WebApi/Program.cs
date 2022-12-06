@@ -11,6 +11,7 @@ using IdentityMicroService.BLL.DAL.Data;
 using IdentityMicroService.BLL.Services;
 using IdentityMicroService.BLL.WebApi;
 using IdentityMicroService.BLL.Constants;
+using IdentityMicroService.BLL.Clients.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -94,6 +95,7 @@ services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 services.AddScoped<IAuthService, AuthService>();
 services.AddScoped<IRoleService, RoleService>();
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<ICityClient, CityClient>();
 
 services.AddControllers();
 

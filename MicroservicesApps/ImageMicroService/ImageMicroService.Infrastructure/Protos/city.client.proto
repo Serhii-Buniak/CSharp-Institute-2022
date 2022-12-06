@@ -13,6 +13,10 @@ message GetAllRequest {
 
 }
 
+message CitiesResponse {
+    repeated GrpcCityModel city = 1;
+}
+
 message GrpcCityModel {
   int32 id = 1;
   string name = 2;
@@ -22,8 +26,4 @@ message GrpcCityModel {
 message GrpcCountryModel {
   int32 id = 1;
   string name = 2;
-}
-
-message CitiesResponse {
-    repeated GrpcCityModel city = 1;
 }
