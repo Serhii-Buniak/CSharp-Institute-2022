@@ -4,7 +4,6 @@ using ImageMicroService.Infrastructure.Persistence;
 using ImageMicroService.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using ImageMicroService.Infrastructure.SyncServices.Grpc;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +24,6 @@ public static class ConfigureServices
         }
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-        services.AddScoped<ICityClient, CityClient>();
         services.AddSingleton(x => new BlobServiceClient(configuration.GetConnectionString("Storage")));
         services.AddScoped<IImageBlobService, ImageBlobService>();
 

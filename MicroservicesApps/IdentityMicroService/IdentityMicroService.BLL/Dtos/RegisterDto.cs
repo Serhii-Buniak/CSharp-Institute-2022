@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using IdentityMicroService.BLL.DAL.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityMicroService.BLL.Dtos;
@@ -11,6 +12,7 @@ public class RegisterDto
     public string Username { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
+    public IFormFile Image { get; set; } = null!;
     public long CityId { get; set; }
 
     public class RegisterDtoValidation : AbstractValidator<RegisterDto>
@@ -32,6 +34,9 @@ public class RegisterDto
             RuleFor(x => x.Username)
                 .NotNull()
                 .NotEmpty();
+
+            RuleFor(x => x.Image)
+                .NotNull();
 
             RuleFor(x => x.Email)
                 .NotNull()

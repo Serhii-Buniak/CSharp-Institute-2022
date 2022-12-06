@@ -12,6 +12,7 @@ using IdentityMicroService.BLL.Services;
 using IdentityMicroService.BLL.WebApi;
 using IdentityMicroService.BLL.Constants;
 using IdentityMicroService.BLL.Clients.Grpc;
+using IdentityMicroService.BLL.Clients.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -92,6 +93,7 @@ services.AddSwaggerGen(c =>
 
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+services.AddHttpClient<IImageClient, ImageClient>();
 services.AddScoped<IAuthService, AuthService>();
 services.AddScoped<IRoleService, RoleService>();
 services.AddScoped<IUserService, UserService>();

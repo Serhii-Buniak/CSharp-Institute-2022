@@ -44,9 +44,9 @@ public static class PrepDb
             }
         }
 
-        IEnumerable<Country> deletedCountries = context.Countries.ToList().Except(countries);
+        //IEnumerable<Country> deletedCountries = context.Countries.ToList().Except(countries);
 
-        context.Countries.RemoveRange(deletedCountries);
+        //context.Countries.RemoveRange(deletedCountries);
 
         context.SaveChanges();
 
@@ -57,7 +57,7 @@ public static class PrepDb
             Name = c.Name,
             CountryId = c.CountryId
         });
-
+      
         foreach (City city in cities)
         {
             if (!context.Cities.Any(c => c.Id == city.Id))
@@ -71,9 +71,9 @@ public static class PrepDb
             }
         }
 
-        IEnumerable<City> deletedCities = context.Cities.ToList().Except(cities);
+        //IEnumerable<City> deletedCities = context.Cities.ToList().Except(cities);
 
-        context.Cities.RemoveRange(deletedCities);
+        //context.Cities.RemoveRange(deletedCities);
 
         context.SaveChanges();
 

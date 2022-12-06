@@ -27,8 +27,4 @@
 	  <ProjectReference Include="..\ImageMicroService.Application\ImageMicroService.Application.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Protobuf Include="Protos\*.client.proto" GrpcServices="Client" />
-	</ItemGroup>
-
 </Project>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IdentityMicroService.BLL.Clients.Http;
 using IdentityMicroService.BLL.DAL.Data;
 using IdentityMicroService.BLL.Dtos;
 using IdentityMicroService.BLL.Exceptions;
@@ -20,18 +21,22 @@ public class AuthService : IAuthService
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly JwtSettings _jwt;
+    private readonly IImageClient _client;
     private readonly IMapper _mapper;
 
-    public AuthService(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwt, ApplicationDbContext context, IMapper mapper)
+    public AuthService(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwt, ApplicationDbContext context, IImageClient client, IMapper mapper)
     {
         _context = context;
         _userManager = userManager;
         _jwt = jwt.Value;
+        _client = client;
         _mapper = mapper;
     }
 
     public async Task RegisterAsync(RegisterDto model)
     {
+        await _client.CreateImage(model.Image);
+
         var user = _mapper.Map<ApplicationUser>(model);
 
         City? city = await _context.Cities.FirstOrDefaultAsync(c => c.Id == model.CityId);

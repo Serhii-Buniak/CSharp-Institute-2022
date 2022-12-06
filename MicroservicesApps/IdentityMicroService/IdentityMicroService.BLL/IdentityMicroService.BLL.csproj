@@ -30,8 +30,4 @@
 		<Protobuf Include="Protos\*.client.proto" GrpcServices="Client" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Clients\Http\" />
-	</ItemGroup>
-
 </Project>

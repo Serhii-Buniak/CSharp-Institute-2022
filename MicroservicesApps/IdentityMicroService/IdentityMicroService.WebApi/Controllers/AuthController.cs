@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Register(RegisterDto model)
+    public async Task<ActionResult> Register([FromForm] RegisterDto model)
     {
         try
         {
