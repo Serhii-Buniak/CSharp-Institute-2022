@@ -1,7 +1,10 @@
 ﻿using IdentityMicroService.BLL.Clients.Grpc;
 using IdentityMicroService.BLL.DAL.Data;
+using IdentityMicroService.BLL.Protos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
+using System.Linq;
 using static IdentityMicroService.BLL.Constants.AuthorizationConfigs;
 
 namespace IdentityMicroService.BLL.WebApi;
@@ -22,26 +25,58 @@ public static class PrepDb
     {
         context.Database.Migrate();
 
-        IEnumerable<City> cities = cityClient.GetAllCities();
-        IEnumerable<Country> countries = cityClient.GetAllCountries();
+
+        IEnumerable<Country> countries = cityClient.GetAllCountries().Select(c => new Country
+        {
+            Id = c.Id,
+            Name = c.Name,
+        });
 
         foreach (Country country in countries)
         {
-            if (!context.Countries.Any(c => c.ExternalId == country.ExternalId))
+            if (!context.Countries.Any(c => c.Id == country.Id))
             {
                 context.Countries.Add(country);
-                context.SaveChanges();
+            }
+            else
+            {
+                context.Countries.Update(country);
             }
         }
 
+        IEnumerable<Country> deletedCountries = context.Countries.ToList().Except(countries);
+
+        context.Countries.RemoveRange(deletedCountries);
+
+        context.SaveChanges();
+
+
+        IEnumerable<City> cities = cityClient.GetAllCities().Select(c => new City
+        {
+            Id = c.Id,
+            Name = c.Name,
+            CountryId = c.CountryId
+        });
+
         foreach (City city in cities)
         {
-            if (!context.Cities.Any(c => c.ExternalId == city.ExternalId))
+            if (!context.Cities.Any(c => c.Id == city.Id))
             {
+
                 context.Cities.Add(city);
-                context.SaveChanges();
+            }
+            else
+            {
+                context.Cities.Update(city);
             }
         }
+
+        IEnumerable<City> deletedCities = context.Cities.ToList().Except(cities);
+
+        context.Cities.RemoveRange(deletedCities);
+
+        context.SaveChanges();
+
 
         foreach (Roles key in roleDict.Keys)
         {

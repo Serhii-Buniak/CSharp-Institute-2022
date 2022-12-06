@@ -25,23 +25,21 @@ public class CityClient : ICityClient
         _client = new GrpcCity.GrpcCityClient(_channel);
     }
 
-    public IEnumerable<City> GetAllCities()
+    public IEnumerable<GrpcCityModel> GetAllCities()
     {
         Console.WriteLine($"--> Calling GRPC Service {_configuration["GrpcCity"]}: ReturnAllPlatforms");
 
         GetAllRequest request = new();
-        IEnumerable<GrpcCityModel> cities = _client.GetAllCities(request).City.AsEnumerable();
 
-        return _mapper.Map<IEnumerable<City>>(cities);
+        return _client.GetAllCities(request).City.AsEnumerable();
     }   
     
-    public IEnumerable<Country> GetAllCountries()
+    public IEnumerable<GrpcCountryModel> GetAllCountries()
     {
         Console.WriteLine($"--> Calling GRPC Service {_configuration["GrpcCity"]}: ReturnAllPlatforms");
 
         GetAllRequest request = new();
-        IEnumerable<GrpcCountryModel> countries = _client.GetAllCountries(request).Country.AsEnumerable();
 
-        return _mapper.Map<IEnumerable<Country>>(countries);
+        return _client.GetAllCountries(request).Country.AsEnumerable();
     }
 }

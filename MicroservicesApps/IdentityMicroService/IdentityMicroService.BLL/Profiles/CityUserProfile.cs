@@ -9,11 +9,7 @@ public class CityUserProfile : Profile
 {
     public CityUserProfile()
     {
-        CreateMap<GrpcCountryModel, Country>()
-            .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => 0));
-        CreateMap<GrpcCityModel, City>()
-            .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => 0));
+        CreateMap<GrpcCountryModel, Country>();
+        CreateMap<GrpcCityModel, City>();
     }
 }

@@ -132,15 +132,9 @@ namespace IdentityMicroService.DAL.Migrations
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.City", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("CountryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ExternalId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -157,12 +151,6 @@ namespace IdentityMicroService.DAL.Migrations
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Country", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("ExternalId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityMicroService.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221203235624_InitialMigration")]
+    [Migration("20221206031619_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -134,15 +134,9 @@ namespace IdentityMicroService.DAL.Migrations
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.City", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("CountryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ExternalId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -159,12 +153,6 @@ namespace IdentityMicroService.DAL.Migrations
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Country", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("ExternalId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
