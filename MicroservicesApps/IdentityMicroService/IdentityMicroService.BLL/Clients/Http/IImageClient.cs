@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IdentityMicroService.BLL.DAL.Data;
+using IdentityMicroService.BLL.Dtos;
+using Microsoft.AspNetCore.Http;
 
 namespace IdentityMicroService.BLL.Clients.Http;
 
 public interface IImageClient
 {
-    Task CreateImage(IFormFile image);
+    Task<Image?> CreateImage(IFormFile image);
 }

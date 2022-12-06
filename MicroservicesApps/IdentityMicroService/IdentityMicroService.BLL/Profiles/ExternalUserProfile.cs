@@ -5,11 +5,13 @@ using IdentityMicroService.BLL.Protos;
 
 namespace IdentityMicroService.BLL.Profiles;
 
-public class CityUserProfile : Profile
+public class ExternalUserProfile : Profile
 {
-    public CityUserProfile()
+    public ExternalUserProfile()
     {
         CreateMap<GrpcCountryModel, Country>();
         CreateMap<GrpcCityModel, City>();
+        CreateMap<City, CityDto>();
+        CreateMap<ImageDto, Image>().ReverseMap();
     }
 }

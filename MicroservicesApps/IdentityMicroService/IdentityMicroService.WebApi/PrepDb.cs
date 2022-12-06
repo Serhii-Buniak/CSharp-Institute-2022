@@ -1,8 +1,10 @@
-﻿using IdentityMicroService.BLL.Clients.Grpc;
+﻿using AutoMapper;
+using IdentityMicroService.BLL.Clients.Grpc;
 using IdentityMicroService.BLL.DAL.Data;
 using IdentityMicroService.BLL.Protos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using static IdentityMicroService.BLL.Constants.AuthorizationConfigs;
@@ -17,22 +19,24 @@ public static class PrepDb
         var context = provider.GetRequiredService<ApplicationDbContext>();
         var roleManager = provider.GetRequiredService<RoleManager<ApplicationRole>>();
         var cityClient = provider.GetRequiredService<ICityClient>();
+        var mapper = provider.GetRequiredService<IMapper>();
 
-        SeedData(context, roleManager, cityClient);
+        SeedData(context, roleManager, cityClient, mapper);
     }
 
-    private static void SeedData(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager, ICityClient cityClient)
+    private static void SeedData(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager, ICityClient cityClient, IMapper mapper)
     {
         context.Database.Migrate();
 
 
-        IEnumerable<Country> countries = cityClient.GetAllCountries().Select(c => new Country
-        {
-            Id = c.Id,
-            Name = c.Name,
-        });
+        var externalCountries = mapper.Map<IEnumerable<Country>>(cityClient.GetAllCountries());
+        var existCountries = context.Countries.AsNoTracking().AsEnumerable();
 
-        foreach (Country country in countries)
+        IEnumerable<Country> diffCountries = existCountries.Except(externalCountries);
+
+        context.Countries.RemoveRange(diffCountries);
+  
+        foreach (Country country in externalCountries)
         {
             if (!context.Countries.Any(c => c.Id == country.Id))
             {
@@ -43,22 +47,17 @@ public static class PrepDb
                 context.Countries.Update(country);
             }
         }
-
-        //IEnumerable<Country> deletedCountries = context.Countries.ToList().Except(countries);
-
-        //context.Countries.RemoveRange(deletedCountries);
-
         context.SaveChanges();
 
 
-        IEnumerable<City> cities = cityClient.GetAllCities().Select(c => new City
-        {
-            Id = c.Id,
-            Name = c.Name,
-            CountryId = c.CountryId
-        });
-      
-        foreach (City city in cities)
+        var externalCities = mapper.Map<IEnumerable<City>>(cityClient.GetAllCities());
+        var existCities = context.Cities.AsNoTracking().AsEnumerable();
+
+        IEnumerable<City> diffCities= existCities.Except(externalCities);
+
+        context.Cities.RemoveRange(diffCities);
+
+        foreach (City city in externalCities)
         {
             if (!context.Cities.Any(c => c.Id == city.Id))
             {
@@ -70,11 +69,6 @@ public static class PrepDb
                 context.Cities.Update(city);
             }
         }
-
-        //IEnumerable<City> deletedCities = context.Cities.ToList().Except(cities);
-
-        //context.Cities.RemoveRange(deletedCities);
-
         context.SaveChanges();
 
 

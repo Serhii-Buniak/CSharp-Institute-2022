@@ -12,3 +12,22 @@ public class CountryConfiguration : IEntityTypeConfiguration<Country>
             .ValueGeneratedNever();
     }
 }
+
+public class ImageConfiguration : IEntityTypeConfiguration<Image>
+{
+    public void Configure(EntityTypeBuilder<Image> builder)
+    {
+        builder.Property(prop => prop.Id)
+            .ValueGeneratedNever();
+    }
+}
+
+public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+{
+    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+    {
+        //builder.HasOne(user => user.Image)
+        //    .WithOne(image => image.User)
+        //    .OnDelete(DeleteBehavior.Cascade);
+    }
+}

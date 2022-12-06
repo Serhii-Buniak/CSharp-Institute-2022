@@ -35,8 +35,6 @@ public class AuthService : IAuthService
 
     public async Task RegisterAsync(RegisterDto model)
     {
-        await _client.CreateImage(model.Image);
-
         var user = _mapper.Map<ApplicationUser>(model);
 
         City? city = await _context.Cities.FirstOrDefaultAsync(c => c.Id == model.CityId);
@@ -46,6 +44,15 @@ public class AuthService : IAuthService
             throw new NotFoundException(nameof(City), model.CityId);
         }
         user.City = city;
+
+        Image? image = await _client.CreateImage(model.Image);
+
+        if (image == null)
+        {
+            throw new ClientException(nameof(IImageClient));
+        }
+        user.Image = image;
+
 
         IdentityResult createUserResult = await _userManager.CreateAsync(user, model.Password);
         if (!createUserResult.Succeeded)

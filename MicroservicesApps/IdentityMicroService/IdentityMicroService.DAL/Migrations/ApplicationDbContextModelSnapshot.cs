@@ -77,6 +77,9 @@ namespace IdentityMicroService.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("ImageId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -117,6 +120,8 @@ namespace IdentityMicroService.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -160,6 +165,20 @@ namespace IdentityMicroService.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Image", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -273,6 +292,12 @@ namespace IdentityMicroService.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("IdentityMicroService.BLL.DAL.Data.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsMany("IdentityMicroService.BLL.DAL.Data.RefreshToken", "RefreshTokens", b1 =>
                         {
                             b1.Property<Guid>("ApplicationUserId")
@@ -306,6 +331,8 @@ namespace IdentityMicroService.DAL.Migrations
                         });
 
                     b.Navigation("City");
+
+                    b.Navigation("Image");
 
                     b.Navigation("RefreshTokens");
                 });

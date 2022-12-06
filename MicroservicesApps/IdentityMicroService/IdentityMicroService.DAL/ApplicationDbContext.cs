@@ -8,6 +8,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 {
     public DbSet<City> Cities => Set<City>();
     public DbSet<Country> Countries => Set<Country>();
+    public DbSet<Image> Images => Set<Image>();
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {

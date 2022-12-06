@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IdentityMicroService.BLL.Dtos
+namespace IdentityMicroService.BLL.Dtos;
+
+public class ImageDto
 {
-    internal class Class1
-    {
-    }
+    public long Id { get; set; }
+    public string Name { get; set; } = null!;
 }

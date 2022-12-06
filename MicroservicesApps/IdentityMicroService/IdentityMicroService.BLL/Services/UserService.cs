@@ -20,13 +20,20 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserDto>> GetAllAsync()
     {
-        IEnumerable<ApplicationUser> users = await _userManager.Users.Include(u => u.City).ToListAsync();
+        IEnumerable<ApplicationUser> users = await _userManager.Users
+            .Include(u => u.City)
+            .Include(u => u.Image)
+            .ToListAsync();
+
         return _mapper.Map<IEnumerable<UserDto>>(users);
     }
 
     public async Task<UserDto> GetByIdAsync(Guid id)
     {
-        ApplicationUser? user = await _userManager.Users.Include(u => u.City).FirstOrDefaultAsync(u => u.Id == id);
+        ApplicationUser? user = await _userManager.Users
+            .Include(u => u.City)
+            .Include(u => u.Image)
+            .FirstOrDefaultAsync(u => u.Id == id);
 
         if (user is null)
         {
