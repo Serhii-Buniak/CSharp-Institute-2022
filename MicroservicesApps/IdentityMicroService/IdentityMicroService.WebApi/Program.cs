@@ -14,6 +14,7 @@ using IdentityMicroService.BLL.Constants;
 using IdentityMicroService.BLL.Clients.Grpc;
 using IdentityMicroService.BLL.Clients.Http;
 using IdentityMicroService.BLL.Subscribers;
+using IdentityMicroService.BLL.Subscribers.Processor;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

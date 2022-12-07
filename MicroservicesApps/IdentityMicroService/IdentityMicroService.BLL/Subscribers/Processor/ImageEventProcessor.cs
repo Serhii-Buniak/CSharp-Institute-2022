@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IdentityMicroService.BLL.DAL.Data;
+using IdentityMicroService.BLL.Subscribers.Subscribers;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 

@@ -2,7 +2,7 @@
 using IdentityMicroService.BLL.DAL.Data;
 using IdentityMicroService.BLL.Dtos;
 using IdentityMicroService.BLL.Protos;
-using IdentityMicroService.BLL.Subscribers;
+using IdentityMicroService.BLL.Subscribers.Subscribers;
 
 namespace IdentityMicroService.BLL.Profiles;
 
