@@ -5,6 +5,7 @@ using ImageMicroService.Domain.Entities;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using ImageMicroService.Application.Common.Extensions;
 
 namespace ImageMicroService.Application.ImageActions.Commands;
 
@@ -28,13 +29,16 @@ public class CreateImageCommand : IRequest<ImageDto>
 
         public async Task<ImageDto> Handle(CreateImageCommand request, CancellationToken cancellationToken)
         {
+            string suffix = "-" + Guid.NewGuid().ToString()[..8];
+            string filename = request.File.FileName.IncreaseFileName(suffix);
+
             Image image = new()
             {
-                Name = request.File.FileName,
+                Name = filename,
                 GalleryId = request.GalleryId
             };
 
-            await _blobService.UploadAsync(request.File);
+            await _blobService.UploadAsync(request.File, filename);
 
             await _dataContext.Images.AddAsync(image, cancellationToken);
             await _dataContext.SaveChangesAsync(cancellationToken);

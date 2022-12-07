@@ -7,6 +7,7 @@ namespace ImageMicroService.Application.Common.Interfaces
     {
         Task<BlobData> GetByIdAsync(long id);
         Task UploadAsync(IFormFile file);
+        Task UploadAsync(IFormFile file, string fileName);
         Task DeleteAsync(long id);
     }
 }

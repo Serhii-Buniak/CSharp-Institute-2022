@@ -18,10 +18,15 @@ public static class PrepDb
     private static void SeedData(ApplicationDbContext context, BlobServiceClient client, IWebHostEnvironment env)
     {
         context.Database.Migrate();
-        BlobContainerClient container = client.GetBlobContainerClient("images");
-        if (container == null)
+
+        try
         {
             client.CreateBlobContainer("images");
+            Console.WriteLine("--> Images container was created");
+        }
+        catch (Exception)
+        {  
+            Console.WriteLine("--> Images container is exist");
         }
     }
 }

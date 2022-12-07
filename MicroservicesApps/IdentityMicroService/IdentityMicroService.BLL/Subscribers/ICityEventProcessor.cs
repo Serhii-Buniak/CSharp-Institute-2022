@@ -1,7 +1,6 @@
-﻿namespace IdentityMicroService.BLL.Subscribers
+﻿namespace IdentityMicroService.BLL.Subscribers;
+
+public interface ICityEventProcessor
 {
-    public interface ICityEventProcessor
-    {
-        void ProcessEvent(string message);
-    }
+    void ProcessEvent(string message);
 }

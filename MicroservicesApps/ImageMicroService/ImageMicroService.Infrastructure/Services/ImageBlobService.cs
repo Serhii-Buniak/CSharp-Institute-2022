@@ -36,6 +36,11 @@ public class ImageBlobService : IImageBlobService
         return await _storage.GetBlobAsync(ImageKey, fileName); 
     }
 
+    public async Task UploadAsync(IFormFile file, string fileName)
+    {
+        await _storage.UploadBlobAsync(ImageKey, file, fileName);
+    }    
+    
     public async Task UploadAsync(IFormFile file)
     {
         await _storage.UploadBlobAsync(ImageKey, file);

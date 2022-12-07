@@ -25,11 +25,11 @@ public class CityServiceTest
         repoWrapper.Setup(prop => prop.CityRepository).Returns(cityRepo.Object);
         repoWrapper.Setup(prop => prop.CountryRepository).Returns(countryRepo.Object);
 
-        cityService = new(
-            repositoryWrapper: repoWrapper.Object,
-            mapper: mapper.Object,
-            memoryCache: cache.Object
-        );
+        // cityService = new(
+        //     repositoryWrapper: repoWrapper.Object,
+        //     mapper: mapper.Object,
+        //     memoryCache: cache.Object
+        // );
     }
 
     [Fact]
