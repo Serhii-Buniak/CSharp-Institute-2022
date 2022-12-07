@@ -3,26 +3,26 @@ using CityMicroService.BLL.DTOs;
 
 namespace CityMicroService.BLL.Publishers;
 
-public class CountryPublisher : ICountryPublisher
+public class CityPublisher : ICityPublisher
 {
     private readonly IMessageBusClient _client;
     private readonly IMapper _mapper;
 
-    public CountryPublisher(IMessageBusClient client, IMapper mapper)
+    public CityPublisher(IMessageBusClient client, IMapper mapper)
     {
         _client = client;
         _mapper = mapper;
     }
 
-    public void CreateEvent(CountryDTO country) => SendEvent(country, "Create");
-    public void DeleteEvent(CountryDTO country) => SendEvent(country, "Delete");
-    public void UpdateEvent(CountryDTO country) => SendEvent(country, "Update");
+    public void CreateEvent(CityDTO city) => SendEvent(city, "Create");
+    public void DeleteEvent(CityDTO city) => SendEvent(city, "Delete");
+    public void UpdateEvent(CityDTO city) => SendEvent(city, "Update");
 
 
-    private void SendEvent(CountryDTO country, string eventAction)
+    private void SendEvent(CityDTO city, string eventAction)
     {
-        ModelPublished modelPublished = _mapper.Map<CountryPublished>(country);
-        modelPublished.Event = $"Country_{eventAction}";
+        ModelPublished modelPublished = _mapper.Map<CityPublished>(city);
+        modelPublished.Event = $"City_{eventAction}";
 
         if (_client.ConnectionIsOpen)
         {

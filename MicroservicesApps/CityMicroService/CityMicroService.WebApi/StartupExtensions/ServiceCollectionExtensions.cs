@@ -12,6 +12,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
         services.AddTransient<ICountryPublisher, CountryPublisher>();
+        services.AddTransient<ICityPublisher, CityPublisher>();
 
         services.AddTransient<IRepositoryWrapper, RepositoryWrapper>();
         services.AddTransient<ICountryService, CountryService>();

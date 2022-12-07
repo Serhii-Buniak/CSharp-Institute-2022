@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CityMicroService.BLL.DTOs;
+using CityMicroService.BLL.Publishers;
 using CityMicroService.DAL.Entities;
 using CityMicroService.DAL.Repositories;
 using CityMicroService.DAL.RepositoryWrapper;
@@ -16,10 +17,11 @@ public class CityService : ICityService
     private readonly ICountryRepository _countryRepository;
     private readonly IMapper _mapper;
     private readonly IMemoryCache _memoryCache;
+    private readonly ICityPublisher _publisher;
 
     public static Func<IQueryable<City>, IIncludableQueryable<City, object>> Include => city => city.Include(c => c.Country);
 
-    public CityService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache)
+    public CityService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache, ICityPublisher publisher)
     {
         _repositoryWrapper = repositoryWrapper;
         _cityRepository = repositoryWrapper.CityRepository;
@@ -27,6 +29,7 @@ public class CityService : ICityService
         _cityRepository.Include = Include;
         _mapper = mapper;
         _memoryCache = memoryCache;
+        _publisher = publisher;
     }
 
     public async Task<IEnumerable<CityDTO>> GetAllAsync()
@@ -62,7 +65,10 @@ public class CityService : ICityService
         await _cityRepository.CreateAsync(city);
         await _repositoryWrapper.SaveAsync();
 
-        return await GetByIdAsync(city.Id);
+        CityDTO cityDto = await GetByIdAsync(city.Id);
+        _publisher.CreateEvent(cityDto);
+
+        return cityDto;
     }
 
     public async Task<CityDTO> DeleteAsync(long id)
@@ -77,7 +83,10 @@ public class CityService : ICityService
         _cityRepository.Delete(city);
         await _repositoryWrapper.SaveAsync();
 
-        return _mapper.Map<CityDTO>(city);
+        CityDTO cityDto = _mapper.Map<CityDTO>(city);
+        _publisher.DeleteEvent(cityDto);
+
+        return cityDto;
     }
 
     public async Task<CityDTO> UpdateAsync(long id, CityRequestDTO cityRequest)
@@ -100,6 +109,9 @@ public class CityService : ICityService
         _cityRepository.Update(city);
         await _repositoryWrapper.SaveAsync();
 
-        return _mapper.Map<CityDTO>(city);
+        CityDTO cityDto = _mapper.Map<CityDTO>(city);
+        _publisher.UpdateEvent(cityDto);
+
+        return cityDto;
     }
 }
