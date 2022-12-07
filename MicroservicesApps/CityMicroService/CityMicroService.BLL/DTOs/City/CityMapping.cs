@@ -11,5 +11,6 @@ internal class CityMapping : Profile
         CreateMap<City, CityDTO>().ReverseMap();
         CreateMap<City, CityRequestDTO>().ReverseMap();
         CreateMap<GrpcCityModel, CityDTO>().ReverseMap();
+        CreateMap<CityPublished, CityDTO>().ReverseMap();
     }
 }

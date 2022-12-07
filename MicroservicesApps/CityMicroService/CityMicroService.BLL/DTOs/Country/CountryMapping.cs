@@ -11,5 +11,6 @@ internal class CountryMapping : Profile
         CreateMap<Country, CountryDTO>().ReverseMap();
         CreateMap<Country, CountryRequestDTO>().ReverseMap();
         CreateMap<GrpcCountryModel, CountryDTO>().ReverseMap();
+        CreateMap<CountryPublished, CountryDTO>().ReverseMap();
     }
 }

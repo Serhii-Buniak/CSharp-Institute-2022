@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using CityMicroService.BLL.DTOs;
+using CityMicroService.BLL.Publishers;
 using CityMicroService.DAL.Entities;
 using CityMicroService.DAL.Repositories;
 using CityMicroService.DAL.RepositoryWrapper;
@@ -14,13 +15,15 @@ public class CountryService : ICountryService
     private readonly ICountryRepository _countryRepository;
     private readonly IMapper _mapper;
     private readonly IMemoryCache _memoryCache;
+    private readonly ICountryPublisher _publisher;
 
-    public CountryService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache)
+    public CountryService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache, ICountryPublisher publisher)
     {
         _repositoryWrapper = repositoryWrapper;
         _countryRepository = repositoryWrapper.CountryRepository;
         _mapper = mapper;
         _memoryCache = memoryCache;
+        _publisher = publisher;
     }
 
     public async Task<CountryDTO> CreateAsync(CountryRequestDTO cityRequest)
@@ -30,7 +33,11 @@ public class CountryService : ICountryService
         await _countryRepository.CreateAsync(country);
         await _repositoryWrapper.SaveAsync();
 
-        return await GetByIdAsync(country.Id);
+        CountryDTO countryDTO = await GetByIdAsync(country.Id);
+
+        _publisher.CreateEvent(countryDTO);
+
+        return countryDTO;
     }
 
     public async Task<CountryDTO> DeleteAsync(long id)
@@ -44,6 +51,9 @@ public class CountryService : ICountryService
 
         _countryRepository.Delete(country);
         await _repositoryWrapper.SaveAsync();
+
+        var countryDTO = _mapper.Map<CountryDTO>(country);
+        _publisher.DeleteEvent(countryDTO);
 
         return _mapper.Map<CountryDTO>(country);
     }
@@ -87,6 +97,9 @@ public class CountryService : ICountryService
         _countryRepository.Update(country);
         await _repositoryWrapper.SaveAsync();
 
-        return _mapper.Map<CountryDTO>(country);
+        var countryDTO = _mapper.Map<CountryDTO>(country);
+        _publisher.UpdateEvent(countryDTO);
+
+        return countryDTO;
     }
 }

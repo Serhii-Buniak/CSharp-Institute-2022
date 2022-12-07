@@ -28,7 +28,6 @@ public static class PrepDb
     {
         context.Database.Migrate();
 
-
         var externalCountries = mapper.Map<IEnumerable<Country>>(cityClient.GetAllCountries());
         var existCountries = context.Countries.AsNoTracking().AsEnumerable();
 

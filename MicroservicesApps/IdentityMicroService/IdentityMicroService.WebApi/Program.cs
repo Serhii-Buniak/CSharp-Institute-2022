@@ -13,6 +13,7 @@ using IdentityMicroService.BLL.WebApi;
 using IdentityMicroService.BLL.Constants;
 using IdentityMicroService.BLL.Clients.Grpc;
 using IdentityMicroService.BLL.Clients.Http;
+using IdentityMicroService.BLL.Subscribers;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -92,6 +93,11 @@ services.AddSwaggerGen(c =>
 });
 
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+services.AddHostedService<MassageBusSubscriber>();
+
+services.AddSingleton<ICountryEventProcessor, CountryEventProcessor>();
+services.AddSingleton<ICityEventProcessor, CityEventProcessor>();
 
 services.AddHttpClient<IImageClient, ImageClient>();
 services.AddScoped<IAuthService, AuthService>();

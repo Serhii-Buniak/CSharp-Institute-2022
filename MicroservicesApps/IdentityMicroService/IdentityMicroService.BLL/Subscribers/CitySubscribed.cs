@@ -1,6 +1,6 @@
-﻿namespace IdentityMicroService.BLL.Dtos;
+﻿namespace IdentityMicroService.BLL.Subscribers;
 
-public class CityDto
+public class CitySubscribed : ModelPublished
 {
     public long Id { get; set; }
     public string Name { get; set; } = null!;
