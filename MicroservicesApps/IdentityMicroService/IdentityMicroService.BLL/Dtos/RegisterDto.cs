@@ -12,8 +12,8 @@ public class RegisterDto
     public string Username { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
-    public IFormFile Image { get; set; } = null!;
-    public long CityId { get; set; }
+    public IFormFile? Image { get; set; } = null!;
+    public long? CityId { get; set; }
 
     public class RegisterDtoValidation : AbstractValidator<RegisterDto>
     {
@@ -35,9 +35,6 @@ public class RegisterDto
                 .NotNull()
                 .NotEmpty();
 
-            RuleFor(x => x.Image)
-                .NotNull();
-
             RuleFor(x => x.Email)
                 .NotNull()
                 .NotEmpty()
@@ -45,10 +42,6 @@ public class RegisterDto
                 .Must(IsUniqueEmail).WithMessage(model => $"Email {model.Email} is already registered.");
 
             RuleFor(x => x.Password)
-                .NotNull()
-                .NotEmpty();
-
-            RuleFor(x => x.CityId)
                 .NotNull()
                 .NotEmpty();
         }

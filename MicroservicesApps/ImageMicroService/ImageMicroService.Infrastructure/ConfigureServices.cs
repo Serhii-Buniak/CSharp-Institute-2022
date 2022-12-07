@@ -4,6 +4,7 @@ using ImageMicroService.Infrastructure.Persistence;
 using ImageMicroService.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ImageMicroService.Infrastructure.Publishers;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -23,9 +24,11 @@ public static class ConfigureServices
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 
+        services.AddSingleton<MessageBusClient>();
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddSingleton(x => new BlobServiceClient(configuration.GetConnectionString("Storage")));
         services.AddScoped<IImageBlobService, ImageBlobService>();
+        services.AddScoped<IImagePublisher, ImagePublisher>();
 
         services.AddStackExchangeRedisCache(options =>
         {

@@ -10,5 +10,10 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
     {
         builder.Property(prop => prop.Id)
             .ValueGeneratedNever();
+
+        builder.HasMany(city => city.Users)
+            .WithOne(user => user.City)
+            .OnDelete(DeleteBehavior.SetNull);
+            
     }
 }

@@ -16,5 +16,6 @@ public class ExternalUserProfile : Profile
         CreateMap<CitySubscribed, City>();
         CreateMap<City, CityDto>();
         CreateMap<ImageDto, Image>().ReverseMap();
+        CreateMap<ImageSubscribed, Image>().ReverseMap();
     }
 }

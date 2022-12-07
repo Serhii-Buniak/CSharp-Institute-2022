@@ -3,7 +3,7 @@ using IdentityMicroService.BLL.DAL.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
-namespace IdentityMicroService.BLL.Subscribers;
+namespace IdentityMicroService.BLL.Subscribers.Processor;
 
 public class CityEventProcessor : ICityEventProcessor
 {

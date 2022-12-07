@@ -11,15 +11,17 @@ public class MassageBusSubscriber : BackgroundService
     private readonly IConfiguration _configuration;
     private readonly ICountryEventProcessor _country;
     private readonly ICityEventProcessor _city;
+    private readonly IImageEventProcessor _image;
     private IConnection? _connection;
     private IModel? _channel;
     private string? _queueName;
 
-    public MassageBusSubscriber(IConfiguration configuration, ICountryEventProcessor country, ICityEventProcessor city)
+    public MassageBusSubscriber(IConfiguration configuration, ICountryEventProcessor country, ICityEventProcessor city, IImageEventProcessor image)
     {
         _configuration = configuration;
         _country = country;
         _city = city;
+        _image = image;
 
         InitializeRabbitMQ();
     }
@@ -39,6 +41,7 @@ public class MassageBusSubscriber : BackgroundService
 
             _country.ProcessEvent(notificationMessage);
             _city.ProcessEvent(notificationMessage);
+            _image.ProcessEvent(notificationMessage);
         };
 
         _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);

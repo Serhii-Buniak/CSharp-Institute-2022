@@ -3,7 +3,7 @@ using IdentityMicroService.BLL.DAL.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
-namespace IdentityMicroService.BLL.Subscribers;
+namespace IdentityMicroService.BLL.Subscribers.Processor;
 
 public class CountryEventProcessor : ICountryEventProcessor
 {
@@ -62,7 +62,7 @@ public class CountryEventProcessor : ICountryEventProcessor
             Console.WriteLine($"--> Could not add Country to DB {ex.Message}");
 
         }
-    }   
+    }
 
     private void UpdateCountry(string countrySubscribedMessage)
     {
@@ -88,8 +88,8 @@ public class CountryEventProcessor : ICountryEventProcessor
         {
             Console.WriteLine($"--> Could not update Country to DB {ex.Message}");
         }
-    }    
-    
+    }
+
     private void DeleteCountry(string countrySubscribedMessage)
     {
         using IServiceScope scope = _scopeFactory.CreateScope();
@@ -115,8 +115,8 @@ public class CountryEventProcessor : ICountryEventProcessor
             Console.WriteLine($"--> Could not delete Country to DB {ex.Message}");
 
         }
-    }    
-   
+    }
+
 
     private static CountryEventType DetermineEvent(string notifactionMessage)
     {

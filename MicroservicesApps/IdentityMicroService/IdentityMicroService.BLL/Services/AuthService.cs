@@ -37,23 +37,28 @@ public class AuthService : IAuthService
     {
         var user = _mapper.Map<ApplicationUser>(model);
 
-        City? city = await _context.Cities.FirstOrDefaultAsync(c => c.Id == model.CityId);
-
-        if (city == null)
+        if (model.CityId != null)
         {
-            throw new NotFoundException(nameof(City), model.CityId);
+            City? city = await _context.Cities.FirstOrDefaultAsync(c => c.Id == model.CityId);
+
+            if (city == null)
+            {
+                throw new NotFoundException(nameof(City), model.CityId);
+            }
+            user.City = city;
         }
-        user.City = city;
 
-        Image? image = await _client.CreateImage(model.Image);
-
-        if (image == null)
+        if (model.Image != null)
         {
-            throw new ClientException(nameof(IImageClient));
+            Image? image = await _client.CreateImage(model.Image);
+
+            if (image == null)
+            {
+                throw new ClientException(nameof(IImageClient));
+            }
+            user.Image = image;
         }
-        user.Image = image;
-
-
+        
         IdentityResult createUserResult = await _userManager.CreateAsync(user, model.Password);
         if (!createUserResult.Succeeded)
         {

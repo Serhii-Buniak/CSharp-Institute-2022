@@ -98,6 +98,7 @@ services.AddHostedService<MassageBusSubscriber>();
 
 services.AddSingleton<ICountryEventProcessor, CountryEventProcessor>();
 services.AddSingleton<ICityEventProcessor, CityEventProcessor>();
+services.AddSingleton<IImageEventProcessor, ImageEventProcessor>();
 
 services.AddHttpClient<IImageClient, ImageClient>();
 services.AddScoped<IAuthService, AuthService>();

@@ -1,4 +1,4 @@
-﻿namespace IdentityMicroService.BLL.Subscribers
+﻿namespace IdentityMicroService.BLL.Subscribers.Processor
 {
     public interface ICountryEventProcessor
     {

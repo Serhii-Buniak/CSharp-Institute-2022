@@ -1,4 +1,4 @@
-﻿namespace IdentityMicroService.BLL.Subscribers;
+﻿namespace IdentityMicroService.BLL.Subscribers.Subscribers;
 
 public class CitySubscribed : ModelPublished
 {

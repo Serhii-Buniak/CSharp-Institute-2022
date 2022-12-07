@@ -4,6 +4,7 @@ using IdentityMicroService.BLL.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityMicroService.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207031012_CityNullable2Migration")]
+    partial class CityNullable2Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +79,7 @@ namespace IdentityMicroService.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("ImageId")
+                    b.Property<long>("ImageId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("LastName")
@@ -292,9 +294,10 @@ namespace IdentityMicroService.DAL.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IdentityMicroService.BLL.DAL.Data.Image", "Image")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsMany("IdentityMicroService.BLL.DAL.Data.RefreshToken", "RefreshTokens", b1 =>
                         {
@@ -405,11 +408,6 @@ namespace IdentityMicroService.DAL.Migrations
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Country", b =>
                 {
                     b.Navigation("Cities");
-                });
-
-            modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Image", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

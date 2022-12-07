@@ -9,4 +9,6 @@ public class City
     public string Name { get; set; } = null!;
     public long CountryId { get; set; }
     public Country Country { get; set; } = null!;
+    public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
+
 }

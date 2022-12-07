@@ -8,7 +8,7 @@ public class ApplicationUser : IdentityUser<Guid>
     public string LastName { get; set; } = null!;
     public long? CityId { get; set; }
     public City? City { get; set; }
-    public long ImageId { get; set; }
-    public Image Image { get; set; } = null!;
+    public long? ImageId { get; set; }
+    public Image? Image { get; set; } = null!;
     public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 }

@@ -3,6 +3,7 @@ using ImageMicroService.Application.Common.Interfaces;
 using AutoMapper;
 using ImageMicroService.Domain.Entities;
 using MediatR;
+using ImageMicroService.Application.Common.Models;
 
 namespace ImageMicroService.Application.ImageActions.Commands;
 
@@ -19,11 +20,15 @@ public class DeleteImageCommand : IRequest
     {
         private readonly IApplicationDbContext _dataContext;
         private readonly IImageBlobService _blobService;
+        private readonly IMapper _mapper;
+        private readonly IImagePublisher _publisher;
 
-        public DeleteImageCommandHandler(IApplicationDbContext applicationDbContext, IImageBlobService imageBlobService)
+        public DeleteImageCommandHandler(IApplicationDbContext applicationDbContext, IImageBlobService imageBlobService, IMapper mapper, IImagePublisher publisher)
         {
             _dataContext = applicationDbContext;
             _blobService = imageBlobService;
+            _mapper = mapper;
+            _publisher = publisher;
         }
 
         public async Task<Unit> Handle(DeleteImageCommand request, CancellationToken cancellationToken)
@@ -35,10 +40,19 @@ public class DeleteImageCommand : IRequest
                 throw new NotFoundException(nameof(Image), request.Id);
             }
 
-            await _blobService.DeleteAsync(image.Id);
+            try
+            {
+                await _blobService.DeleteAsync(image.Id);
+            }
+            finally
+            {
+                _dataContext.Images.Remove(image);
+                await _dataContext.SaveChangesAsync(cancellationToken);
 
-            _dataContext.Images.Remove(image);
-            await _dataContext.SaveChangesAsync(cancellationToken);
+                var imageDto = _mapper.Map<ImageDto>(image);
+
+                _publisher.DeleteEvent(imageDto);
+            }
 
             return Unit.Value;
         }

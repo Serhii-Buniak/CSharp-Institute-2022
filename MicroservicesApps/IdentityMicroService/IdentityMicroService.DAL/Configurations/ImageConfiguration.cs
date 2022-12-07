@@ -4,11 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IdentityMicroService.DAL.Configurations;
 
-public class CountryConfiguration : IEntityTypeConfiguration<Country>
+public class ImageConfiguration : IEntityTypeConfiguration<Image>
 {
-    public void Configure(EntityTypeBuilder<Country> builder)
+    public void Configure(EntityTypeBuilder<Image> builder)
     {
         builder.Property(prop => prop.Id)
             .ValueGeneratedNever();
+
+        builder.HasMany(image => image.Users)
+           .WithOne(user => user.Image)
+           .OnDelete(DeleteBehavior.SetNull);
     }
 }
