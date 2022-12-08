@@ -4,6 +4,7 @@ using static CityMicroService.Test.BLL.Services.CityServiceTestHelper;
 using static CityMicroService.Test.BLL.Services.CountryServiceTestHelper;
 
 namespace CityMicroService.Test.BLL.Services;
+
 public class CityServiceTest
 {
     protected readonly Mock<IRepositoryWrapper> repoWrapper;

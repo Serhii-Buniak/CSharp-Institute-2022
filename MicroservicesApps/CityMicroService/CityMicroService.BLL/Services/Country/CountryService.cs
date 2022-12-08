@@ -55,7 +55,7 @@ public class CountryService : ICountryService
         var countryDTO = _mapper.Map<CountryDTO>(country);
         _publisher.DeleteEvent(countryDTO);
 
-        return _mapper.Map<CountryDTO>(country);
+        return countryDTO;
     }
 
     public async Task<IEnumerable<CountryDTO>> GetAllAsync()

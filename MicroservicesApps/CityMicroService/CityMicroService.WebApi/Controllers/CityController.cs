@@ -46,7 +46,7 @@ public class CityController : ControllerBase
         }
 
         CityDTO city = await _cityService.CreateAsync(cityRequest);
-        return CreatedAtAction(nameof(GetCity), new { Id = city.Id }, city);
+        return CreatedAtAction(nameof(GetCity), new {city.Id }, city);
     }
 
     [HttpPut("{id}")]
@@ -55,7 +55,7 @@ public class CityController : ControllerBase
         try
         {
             CityDTO city = await _cityService.UpdateAsync(id, cityRequest);
-            return CreatedAtAction(nameof(GetCity), new { Id = id }, city);
+            return CreatedAtAction(nameof(GetCity), new { id }, city);
         }
         catch (ArgumentException e)
         {
