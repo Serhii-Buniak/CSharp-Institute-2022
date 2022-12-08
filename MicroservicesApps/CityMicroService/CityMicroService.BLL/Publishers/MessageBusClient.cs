@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text;
 using RabbitMQ.Client;
 using CityMicroService.BLL.DTOs;
-using System.Text.Json.Serialization;
 
 namespace CityMicroService.BLL.Publishers;
 

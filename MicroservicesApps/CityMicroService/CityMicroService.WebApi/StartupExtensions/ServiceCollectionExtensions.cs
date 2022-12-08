@@ -11,6 +11,8 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
+        services.AddSingleton<ICacheService, CacheService>();
+
         services.AddTransient<ICountryPublisher, CountryPublisher>();
         services.AddTransient<ICityPublisher, CityPublisher>();
 

@@ -18,7 +18,8 @@ internal static class CityServiceTestHelper
     {
         return GetCitiesDTOs().Select(c => new City { Id = c.Id, Name = c.Name });
     }
-
-    static internal CityDTO GetCountryDTO() => GetCitiesDTOs().First();
+    
+    static internal CityDTO? GetCityDTOById(long id) => GetCitiesDTOs().SingleOrDefault(c => c.Id ==id);
+    static internal City? GetCityById(long id) => GetCities().SingleOrDefault(c => c.Id == id);
 
 }

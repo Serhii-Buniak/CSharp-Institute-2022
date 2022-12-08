@@ -14,15 +14,15 @@ public class CountryService : ICountryService
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ICountryRepository _countryRepository;
     private readonly IMapper _mapper;
-    private readonly IMemoryCache _memoryCache;
+    private readonly ICacheService _cache;
     private readonly ICountryPublisher _publisher;
 
-    public CountryService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache, ICountryPublisher publisher)
+    public CountryService(IRepositoryWrapper repositoryWrapper, IMapper mapper, ICacheService cache, ICountryPublisher publisher)
     {
         _repositoryWrapper = repositoryWrapper;
         _countryRepository = repositoryWrapper.CountryRepository;
         _mapper = mapper;
-        _memoryCache = memoryCache;
+        _cache = cache;
         _publisher = publisher;
     }
 
@@ -60,13 +60,12 @@ public class CountryService : ICountryService
 
     public async Task<IEnumerable<CountryDTO>> GetAllAsync()
     {
-        IEnumerable<Country>? countries = _memoryCache.GetCountries();
+        IEnumerable<Country>? countries = _cache.GetCountries();
 
         if (countries is null)
         {
             countries = await _countryRepository.GetAllAsync();
-            await Task.Delay(2500);
-            _memoryCache.SetCountries(countries, 60);
+            _cache.SetCountries(countries, 60);
         }
 
         return _mapper.Map<IEnumerable<CountryDTO>>(countries);

@@ -14,10 +14,11 @@ internal static class CountryServiceTestHelper
         }.AsEnumerable();
     }   
     
-    static internal IEnumerable<City> GetCountries()
+    static internal IEnumerable<Country> GetCountries()
     {
-        return GetCountriesDTOs().Select(c => new City { Id = c.Id, Name = c.Name });
+        return GetCountriesDTOs().Select(c => new Country { Id = c.Id, Name = c.Name });
     }
 
-    static internal CountryDTO GetCountryDTO() => GetCountriesDTOs().First();
+    static internal CountryDTO? GetCountryDTOById(long id) => GetCountriesDTOs().SingleOrDefault(c => c.Id == id);
+    static internal Country? GetCountryById(long id) => GetCountries().SingleOrDefault(c => c.Id == id);
 }

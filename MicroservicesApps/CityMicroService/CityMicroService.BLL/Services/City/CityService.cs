@@ -16,31 +16,30 @@ public class CityService : ICityService
     private readonly ICityRepository _cityRepository;
     private readonly ICountryRepository _countryRepository;
     private readonly IMapper _mapper;
-    private readonly IMemoryCache _memoryCache;
+    private readonly ICacheService _cache;
     private readonly ICityPublisher _publisher;
 
     public static Func<IQueryable<City>, IIncludableQueryable<City, object>> Include => city => city.Include(c => c.Country);
 
-    public CityService(IRepositoryWrapper repositoryWrapper, IMapper mapper, IMemoryCache memoryCache, ICityPublisher publisher)
+    public CityService(IRepositoryWrapper repositoryWrapper, IMapper mapper, ICacheService cache, ICityPublisher publisher)
     {
         _repositoryWrapper = repositoryWrapper;
         _cityRepository = repositoryWrapper.CityRepository;
         _countryRepository = repositoryWrapper.CountryRepository;
         _cityRepository.Include = Include;
         _mapper = mapper;
-        _memoryCache = memoryCache;
+        _cache = cache;
         _publisher = publisher;
     }
 
     public async Task<IEnumerable<CityDTO>> GetAllAsync()
     {
-        IEnumerable<City>? cities = _memoryCache.GetCities();
+        IEnumerable<City>? cities = _cache.GetCities();
 
         if (cities is null)
         {
             cities = await _cityRepository.GetAllAsync();
-            await Task.Delay(2500);
-            _memoryCache.SetCities(cities, 60);
+            _cache.SetCities(cities, 60);
         }
 
         return _mapper.Map<IEnumerable<CityDTO>>(cities);
