@@ -20,6 +20,7 @@ services.AddControllers(options =>
 
 services.AddApplicationServices();
 services.AddInfrastructureServices(configuration);
+services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 services.AddAuthentication(opt =>
 {

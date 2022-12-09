@@ -6,7 +6,9 @@ using EventMicroService.Application.Common.Interfaces;
 using EventMicroService.Domain.Entities;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 
 namespace EventMicroService.Application.EventCQRS.Commands;
 
