@@ -31,7 +31,12 @@ public class GetEventQuery : IRequest<EventReadDto>
 
         public async Task<EventReadDto> Handle(GetEventQuery request, CancellationToken cancellationToken)
         {
-            Event? @event = await _context.Events.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+            Event? @event = await _context.Events
+                .Include(e => e.User)
+                .Include(e => e.Gallery)
+                .Include(e => e.Categories)
+                .Include(e => e.City)
+                .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
             if (@event is null)
             {

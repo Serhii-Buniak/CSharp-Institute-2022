@@ -27,7 +27,7 @@ public class CityClient : ICityClient
 
     public IEnumerable<GrpcCityModel> GetAllCities()
     {
-        Console.WriteLine($"--> Calling GRPC Service {_configuration["GrpcCity"]}: ReturnAllPlatforms");
+        Console.WriteLine($"--> Calling GRPC Service {_configuration["GrpcCity"]}: GetAllCities");
 
         GetAllRequest request = new();
 
@@ -36,7 +36,7 @@ public class CityClient : ICityClient
     
     public IEnumerable<GrpcCountryModel> GetAllCountries()
     {
-        Console.WriteLine($"--> Calling GRPC Service {_configuration["GrpcCity"]}: ReturnAllPlatforms");
+        Console.WriteLine($"--> Calling GRPC Service {_configuration["GrpcCity"]}: GetAllCountries");
 
         GetAllRequest request = new();
 

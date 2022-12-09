@@ -148,23 +148,7 @@ namespace IdentityMicroService.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId");
-
                     b.ToTable("Cities");
-                });
-
-            modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Country", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Image", b =>
@@ -335,17 +319,6 @@ namespace IdentityMicroService.DAL.Migrations
                     b.Navigation("RefreshTokens");
                 });
 
-            modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.City", b =>
-                {
-                    b.HasOne("IdentityMicroService.BLL.DAL.Data.Country", "Country")
-                        .WithMany("Cities")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("IdentityMicroService.BLL.DAL.Data.ApplicationRole", null)
@@ -400,11 +373,6 @@ namespace IdentityMicroService.DAL.Migrations
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.City", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Country", b =>
-                {
-                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("IdentityMicroService.BLL.DAL.Data.Image", b =>

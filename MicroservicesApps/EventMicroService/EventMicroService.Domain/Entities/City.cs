@@ -2,8 +2,8 @@
 
 namespace EventMicroService.Domain.Entities;
 
-public class City : IdentifiedExternalEntity
+public class City : IdentifiedEntity
 {
     public string Name { get; set; } = null!;
-    public Country Country { get; set; } = null!;
+    public long CountryId { get; set; }
 }

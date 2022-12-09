@@ -4,7 +4,7 @@ using IdentityMicroService.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IdentityMicroService.BLL.WebApi.Controllers;
+namespace IdentityMicroService.WebApi.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
@@ -55,13 +55,6 @@ public class AuthController : ControllerBase
             return BadRequest("Email or password uncorrect");
         }
     }
-
-    //[HttpPost("addrole")]
-    //public async Task<IActionResult> AddRoleAsync(RoleAddDto model)
-    //{
-    //    var result = await _userService.AddRoleAsync(model);
-    //    return Ok(result);
-    //}
 
     [HttpPut]
     public async Task<IActionResult> RefreshTokens()

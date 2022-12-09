@@ -10,8 +10,6 @@ public class ExternalUserProfile : Profile
 {
     public ExternalUserProfile()
     {
-        CreateMap<GrpcCountryModel, Country>();
-        CreateMap<CountrySubscribed, Country>();
         CreateMap<GrpcCityModel, City>();
         CreateMap<CitySubscribed, City>();
         CreateMap<City, CityDto>();

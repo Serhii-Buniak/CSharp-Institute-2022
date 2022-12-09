@@ -11,9 +11,9 @@ public static class AuthorizationConfigs
         User
     }
 
-    const string Administrator = "Administrator";
+    public const string Administrator = "Administrator";
     public const string Moderator = "Moderator";
-    const string User = "User";
+    public const string User = "User";
 
     public static readonly IReadOnlyDictionary<Roles, string> roleDict = new Dictionary<Roles, string>()
     {

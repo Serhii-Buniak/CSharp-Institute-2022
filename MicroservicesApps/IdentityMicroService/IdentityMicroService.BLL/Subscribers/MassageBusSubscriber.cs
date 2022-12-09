@@ -10,17 +10,15 @@ namespace IdentityMicroService.BLL.Subscribers;
 public class MassageBusSubscriber : BackgroundService
 {
     private readonly IConfiguration _configuration;
-    private readonly ICountryEventProcessor _country;
     private readonly ICityEventProcessor _city;
     private readonly IImageEventProcessor _image;
     private IConnection? _connection;
     private IModel? _channel;
     private string? _queueName;
 
-    public MassageBusSubscriber(IConfiguration configuration, ICountryEventProcessor country, ICityEventProcessor city, IImageEventProcessor image)
+    public MassageBusSubscriber(IConfiguration configuration, ICityEventProcessor city, IImageEventProcessor image)
     {
         _configuration = configuration;
-        _country = country;
         _city = city;
         _image = image;
 
@@ -40,7 +38,6 @@ public class MassageBusSubscriber : BackgroundService
             var body = ea.Body;
             var notificationMessage = Encoding.UTF8.GetString(body.ToArray());
 
-            _country.ProcessEvent(notificationMessage);
             _city.ProcessEvent(notificationMessage);
             _image.ProcessEvent(notificationMessage);
         };

@@ -1,7 +1,9 @@
 ﻿using EventMicroService.Application.CategoryCQRS.Commands;
 using EventMicroService.Application.CategoryCQRS.Queries;
 using EventMicroService.Application.Common.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static EventMicroService.Infrastructure.AuthorizationConfigs;
 
 namespace EventMicroService.WebApi.Controllers;
 
@@ -20,6 +22,7 @@ public class CategoryController : ApiControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = $"{Moderator}, {Administrator}")]
     public async Task<IActionResult> CreateCategory(CreateCategoryCommand createCategoryCommand)
     {
         CategoryReadDto category = await Mediator.Send(createCategoryCommand);
@@ -28,6 +31,7 @@ public class CategoryController : ApiControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = $"{Moderator}, {Administrator}")]
     public async Task<IActionResult> UpdateCategory(long id, UpdateCategoryCommand updateCategoryCommand)
     {
         updateCategoryCommand.SetId(id);
@@ -36,6 +40,7 @@ public class CategoryController : ApiControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = $"{Moderator}, {Administrator}")]
     public async Task<IActionResult> DeleteCategory(long id)
     {
         await Mediator.Send(new DeleteCategoryCommand(id));

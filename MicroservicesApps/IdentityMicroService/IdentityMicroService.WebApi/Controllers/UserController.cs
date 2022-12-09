@@ -1,8 +1,10 @@
 ﻿using IdentityMicroService.BLL.Exceptions;
 using IdentityMicroService.BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static IdentityMicroService.BLL.Constants.AuthorizationConfigs;
 
-namespace IdentityMicroService.BLL.WebApi.Controllers;
+namespace IdentityMicroService.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -18,18 +20,21 @@ public partial class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = $"{Moderator}, {Administrator}")]
     public async Task<IActionResult> GetUser(Guid id)
     {
         return Ok(await _userService.GetByIdAsync(id));
     }
 
     [HttpGet]
+    [Authorize(Roles = $"{Moderator}, {Administrator}")]
     public async Task<IActionResult> GetUsers()
     {
         return Ok(await _userService.GetAllAsync());
     }
 
     [HttpGet("{userId}/Role")]
+    [Authorize(Roles = $"{Moderator}, {Administrator}")]
     public async Task<IActionResult> GetRolesForUser(Guid userId)
     {
         try
@@ -43,6 +48,7 @@ public partial class UserController : ControllerBase
     }
 
     [HttpPost("{userId}/Role/{roleId}")]
+    [Authorize(Roles = Administrator)]
     public async Task<IActionResult> AddRoleForUser(Guid userId, Guid roleId)
     {
         try
@@ -61,6 +67,7 @@ public partial class UserController : ControllerBase
     }
 
     [HttpDelete("{userId}/Role/{roleId}")]
+    [Authorize(Roles = Administrator)]
     public async Task<IActionResult> RemoveRoleForUser(Guid userId, Guid roleId)
     {
         try

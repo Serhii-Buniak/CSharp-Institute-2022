@@ -1,7 +1,9 @@
 ﻿using ImageMicroService.Application.Common.Models;
 using ImageMicroService.Application.GalleryActions.Commands;
 using ImageMicroService.Application.GalleryActions.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static ImageMicroService.Infrastructure.AuthorizationConfigs;
 
 namespace ImageMicroService.WebApi.Controllers;
 
@@ -27,6 +29,7 @@ public class GalleryController : ApiControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateGallery(CreateGalleryCommand command)
     {
         GalleryDto gallery = await Mediator.Send(command);
@@ -34,6 +37,7 @@ public class GalleryController : ApiControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = $"{Moderator}, {Administrator}")]
     public async Task<IActionResult> DeleteGallery(long id)
     {
         await Mediator.Send(new DeleteGalleryCommand(id));

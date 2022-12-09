@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System.Net.Http;
-using System.Text.Json;
-using System.Text;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
-using IdentityMicroService.BLL.Dtos;
 using Newtonsoft.Json;
 using IdentityMicroService.BLL.DAL.Data;
 

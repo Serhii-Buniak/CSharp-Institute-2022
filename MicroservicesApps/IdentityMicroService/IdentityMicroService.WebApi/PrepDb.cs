@@ -9,7 +9,7 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using static IdentityMicroService.BLL.Constants.AuthorizationConfigs;
 
-namespace IdentityMicroService.BLL.WebApi;
+namespace IdentityMicroService.WebApi;
 
 public static class PrepDb
 {
@@ -17,42 +17,22 @@ public static class PrepDb
     {
         using ServiceProvider provider = builder.Services.BuildServiceProvider();
         var context = provider.GetRequiredService<ApplicationDbContext>();
+        var userManager = provider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = provider.GetRequiredService<RoleManager<ApplicationRole>>();
         var cityClient = provider.GetRequiredService<ICityClient>();
         var mapper = provider.GetRequiredService<IMapper>();
 
-        SeedData(context, roleManager, cityClient, mapper);
+        SeedData(context, roleManager, userManager, cityClient, mapper);
     }
 
-    private static void SeedData(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager, ICityClient cityClient, IMapper mapper)
+    private static void SeedData(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, ICityClient cityClient, IMapper mapper)
     {
         context.Database.Migrate();
-
-        var externalCountries = mapper.Map<IEnumerable<Country>>(cityClient.GetAllCountries());
-        var existCountries = context.Countries.AsNoTracking().AsEnumerable();
-
-        IEnumerable<Country> diffCountries = existCountries.Except(externalCountries);
-
-        context.Countries.RemoveRange(diffCountries);
-  
-        foreach (Country country in externalCountries)
-        {
-            if (!context.Countries.Any(c => c.Id == country.Id))
-            {
-                context.Countries.Add(country);
-            }
-            else
-            {
-                context.Countries.Update(country);
-            }
-        }
-        context.SaveChanges();
-
 
         var externalCities = mapper.Map<IEnumerable<City>>(cityClient.GetAllCities());
         var existCities = context.Cities.AsNoTracking().AsEnumerable();
 
-        IEnumerable<City> diffCities= existCities.Except(externalCities);
+        IEnumerable<City> diffCities = existCities.Except(externalCities);
 
         context.Cities.RemoveRange(diffCities);
 
@@ -78,6 +58,21 @@ public static class PrepDb
             {
                 roleManager.CreateAsync(new ApplicationRole(role)).Wait();
             }
+        }
+
+        if (!context.Users.Any(u => u.UserName == "Admin"))
+        {
+            ApplicationUser user = new()
+            {
+                FirstName = "Admin",
+                LastName = "Admin",
+                UserName = "Admin",
+                Email = "admin@example.com",
+            };
+
+            userManager.CreateAsync(user, "admin123").Wait();
+
+            userManager.AddToRoleAsync(user, roleDict[Roles.Administrator]).Wait();
         }
     }
 }

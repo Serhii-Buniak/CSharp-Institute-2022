@@ -14,6 +14,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Event> Events => Set<Event>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Gallery> Galleries => Set<Gallery>();
+    public DbSet<City> Cities => Set<City>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

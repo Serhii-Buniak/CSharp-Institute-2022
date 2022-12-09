@@ -2,7 +2,7 @@
 using IdentityMicroService.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IdentityMicroService.BLL.WebApi.Controllers;
+namespace IdentityMicroService.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

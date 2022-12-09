@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using static IdentityMicroService.BLL.Constants.AuthorizationConfigs;
 
-namespace IdentityMicroService.BLL.WebApi.Controllers;
+namespace IdentityMicroService.WebApi.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]

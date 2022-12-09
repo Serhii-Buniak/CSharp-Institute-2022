@@ -1,6 +1,8 @@
 ﻿using CityMicroService.BLL.DTOs;
 using CityMicroService.BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static CityMicroService.BLL.AuthorizationConfigs;
 
 namespace CityMicroService.WebApi.Controllers;
 
@@ -37,6 +39,7 @@ public class CountryController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = Administrator)]
     public async Task<IActionResult> CreateCity(CountryRequestDTO countryRequest)
     {
         if (!ModelState.IsValid)
@@ -49,6 +52,7 @@ public class CountryController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = Administrator)]
     public async Task<IActionResult> UpdateCity(long id, CountryRequestDTO cityRequest)
     {
         try
@@ -63,6 +67,7 @@ public class CountryController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = Administrator)]
     public async Task<IActionResult> DeleteCity(long id)
     {
         try

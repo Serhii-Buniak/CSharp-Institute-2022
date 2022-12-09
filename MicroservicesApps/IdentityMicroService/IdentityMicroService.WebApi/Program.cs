@@ -9,12 +9,13 @@ using System.Reflection;
 using IdentityMicroService.BLL.Settings;
 using IdentityMicroService.BLL.DAL.Data;
 using IdentityMicroService.BLL.Services;
-using IdentityMicroService.BLL.WebApi;
 using IdentityMicroService.BLL.Constants;
 using IdentityMicroService.BLL.Clients.Grpc;
 using IdentityMicroService.BLL.Clients.Http;
 using IdentityMicroService.BLL.Subscribers;
 using IdentityMicroService.BLL.Subscribers.Processor;
+using IdentityMicroService.WebApi;
+using IdentityMicroService.WebApi.GrpcControllers;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -97,7 +98,6 @@ services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 services.AddHostedService<MassageBusSubscriber>();
 
-services.AddSingleton<ICountryEventProcessor, CountryEventProcessor>();
 services.AddSingleton<ICityEventProcessor, CityEventProcessor>();
 services.AddSingleton<IImageEventProcessor, ImageEventProcessor>();
 
@@ -107,6 +107,7 @@ services.AddScoped<IRoleService, RoleService>();
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<ICityClient, CityClient>();
 
+services.AddGrpc();
 services.AddControllers();
 
 services.AddEndpointsApiExplorer();
@@ -140,6 +141,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<UserGrpcController>();
+app.MapGet("/protos/user.server.proto", async context =>
+{
+    await context.Response.WriteAsync(File.ReadAllText("../IdentityMicroService.BLL/Protos/user.server.proto"));
+});
 
 PrepDb.PrepPopulation(builder);
 

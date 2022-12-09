@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityMicroService.BLL", "Cit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityMicroService.DAL", "CityMicroService.DAL\CityMicroService.DAL.csproj", "{21A7F43F-6E44-4A1A-A260-6862815EFD36}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C54BE9D9-D731-480F-9914-6A39C2B682A5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityMicroService.Test", "CityMicroService.Test\CityMicroService.Test.csproj", "{2AE2507D-523B-486B-B732-B3F21C3ABB03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityMicroService.Test", "CityMicroService.Test\CityMicroService.Test.csproj", "{2AE2507D-523B-486B-B732-B3F21C3ABB03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{2AE2507D-523B-486B-B732-B3F21C3ABB03} = {C54BE9D9-D731-480F-9914-6A39C2B682A5}
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {99A8BC4E-4CEE-453F-AE0F-26D7F5B14DA3}
+		SolutionGuid = {C8F7F485-0798-4337-BC04-FD264F825D85}
 	EndGlobalSection
 EndGlobal
